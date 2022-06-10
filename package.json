@@ -1,0 +1,22 @@
+{
+  "name": "jci",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "concurrently -k -n server,client \"cd server && npm run start\" \"cd client && npm run start\"",
+    "start:server": "cd server && npm run start",
+    "start:client": "cd client && npm run start",
+    "dev": "concurrently -k -n server,client \"cd server && npm run dev\" \"cd client && npm run start\"",
+    "setup": "cd server && npm install && cd ../client && npm install"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@commitlint/cli": "^17.0.2",
+    "@commitlint/config-conventional": "^17.0.2",
+    "concurrently": "^7.2.1",
+    "husky": "^8.0.1"
+  }
+}
