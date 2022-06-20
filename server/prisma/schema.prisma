@@ -9,3 +9,150 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id              Int              @id @default(autoincrement())
+  name            String
+  password        String
+  birthdate       DateTime?
+  location        Location         @relation(fields: [locationId], references: [id])
+  earnedBadges    Badge[]
+  itemsUnlocked   Item[]
+  character       Character        @relation(fields: [characterId], references: [id])
+  landscape       Landscape        @relation(fields: [landscapeId], references: [id])
+  completedQuests CompletedQuest[]
+  visitedShop     VisitedShop[]
+
+  locationId  Int @unique
+  characterId Int @unique
+  landscapeId Int @unique
+}
+
+model Character {
+  id           Int    @id @default(autoincrement())
+  enabledItems Item[]
+
+  user User?
+}
+
+model Landscape {
+  id           Int    @id @default(autoincrement())
+  enabledItems Item[]
+
+  user User?
+}
+
+model Item {
+  id             Int      @id @default(autoincrement())
+  type           ItemType
+  requiredBadges Badge[]
+
+  ownedBy              User[]
+  associatedCharacters Character[]
+  associatedLandscapes Landscape[]
+}
+
+enum ItemType {
+  CharacterHead
+  CharacterColor
+  CharacterClothes
+  CharacterAnimation
+  LandscapeSkyColor
+  LandscapeDistrict
+}
+
+model CompletedQuest {
+  id           Int      @id @default(autoincrement())
+  quest        Quest    @relation(fields: [questId], references: [id])
+  completeDate DateTime
+  user         User     @relation(fields: [userId], references: [id])
+
+  userId  Int
+  questId Int
+}
+
+model Badge {
+  id    Int    @id @default(autoincrement())
+  name  String
+  value Int
+  tags  Tag[]
+
+  earnedBy         User[]
+  associatedItems  Item[]
+  associatedQuests Quest[]
+}
+
+model Quest {
+  id       Int            @id @default(autoincrement())
+  missions QuestMission[]
+  badge    Badge[]
+
+  associatedCompletedQuests CompletedQuest[]
+}
+
+model QuestMission {
+  id           Int  @id @default(autoincrement())
+  requiredCode Code @relation(fields: [requiredCodeId], references: [id])
+
+  associatedQuests Quest[]
+  requiredCodeId   String
+}
+
+model Code {
+  id String @id @default(uuid())
+
+  associatedQuestMissions QuestMission[]
+  associatedShop          Shop?
+}
+
+model ShopSchedule {
+  id        Int      @id @default(autoincrement())
+  startTime DateTime
+  endTime   DateTime
+  shop      Shop     @relation(fields: [shopId], references: [id])
+
+  shopId Int
+}
+
+model Shop {
+  id          Int            @id @default(autoincrement())
+  name        String
+  description String
+  tags        Tag[]
+  code        Code           @relation(fields: [codeId], references: [id])
+  location    Location       @relation(fields: [locationId], references: [id])
+  scedules    ShopSchedule[]
+  phoneNumber String
+  website     String
+
+  codeId                 String        @unique
+  locationId             Int           @unique
+  associatedVisitedShops VisitedShop[]
+}
+
+model Tag {
+  id   Int    @id @default(autoincrement())
+  name String
+
+  associatedBadges Badge[]
+  associatedShops  Shop[]
+}
+
+model VisitedShop {
+  id   Int  @id @default(autoincrement())
+  shop Shop @relation(fields: [shopId], references: [id])
+  user User @relation(fields: [userId], references: [id])
+
+  userId Int
+  shopId Int
+}
+
+model Location {
+  id        Int    @id @default(autoincrement())
+  name      String
+  latitude  Float
+  longitude Float
+
+  user           User?
+  associatedShop Shop?
+}
