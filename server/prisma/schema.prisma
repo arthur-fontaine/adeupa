@@ -2,7 +2,8 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch", "fullTextIndex"]
 }
 
 datasource db {
@@ -121,13 +122,15 @@ model Shop {
   tags        Tag[]
   code        Code           @relation(fields: [codeId], references: [id])
   location    Location       @relation(fields: [locationId], references: [id])
-  scedules    ShopSchedule[]
+  schedules   ShopSchedule[]
   phoneNumber String
   website     String
 
   codeId                 String        @unique
   locationId             Int           @unique
   associatedVisitedShops VisitedShop[]
+  
+  @@fulltext([name])
 }
 
 model Tag {

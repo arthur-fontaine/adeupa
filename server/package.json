@@ -23,7 +23,8 @@
     "@prisma/client": "^3.15.2",
     "fastify": "^4.0.0-rc.2",
     "fastify-cli": "^4.0.0",
-    "fastify-plugin": "^3.0.0"
+    "fastify-plugin": "^3.0.0",
+    "moment": "^2.29.3"
   },
   "devDependencies": {
     "@types/node": "^17.0.8",
