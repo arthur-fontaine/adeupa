@@ -18,6 +18,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@faker-js/faker": "^7.3.0",
     "@fastify/autoload": "^5.0.0",
     "@fastify/sensible": "^4.1.0",
     "@prisma/client": "^3.15.2",
