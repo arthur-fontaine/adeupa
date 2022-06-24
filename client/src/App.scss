@@ -1,0 +1,264 @@
+@font-face {
+  font-family: 'Poppins-Black';
+  src: url('./fonts/Poppins-Black.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Poppins-Bold';
+  src: url('./fonts/Poppins-Bold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Poppins-Medium';
+  src: url('./fonts/Poppins-Medium.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Poppins-Regular';
+  src: url('./fonts/Poppins-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Poppins-Light';
+  src: url('./fonts/Poppins-Light.ttf') format('truetype');
+}
+
+/* fonts */
+$font-h1: 'Poppins-Black', sans-serif;
+$font-h2: 'Poppins-Bold', sans-serif;
+$font-h3: 'Poppins-Medium', sans-serif;
+$font-body: 'Poppins-Regular', sans-serif;
+$font-label: 'Poppins-Light', sans-serif;
+$font-button: 'Poppins-Regular', sans-serif;
+/* Basic colors */
+$red: #fe6363;
+$yellow: #f4e06d;
+$clay: #eaecff;
+$sky: #c2deff;
+$purple: #1d094e;
+$grey: #8d8c94;
+$black: #000000;
+$white: #fcfcfc;
+/* Customization menu colors */
+$color_red: #f77676;
+$color_orange: #e8871e;
+$color_purple: #4f518c;
+$color_green: #84dc85;
+$color_blue: #76c9f7;
+/* margin px */
+$margin-16px: 16px;
+$margin-24px: 24px;
+$margin-48px: 48px;
+
+html,
+body {
+  background-color: $white;
+  height: 100vh;
+  width: 100%;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+h2 {
+  color: $purple;
+  font-family: $font-h2;
+  font-size: 20px;
+  line-height: 24px;
+}
+
+label {
+  color: $black;
+  font-family: $font-label;
+  font-size: 14px;
+  line-height: 17px;
+}
+
+input {
+  color: $black;
+  font-family: $font-body;
+  font-size: 14px;
+  line-height: 21px;
+}
+
+.flex-col-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sky-background {
+  background-color: $sky;
+}
+
+/* Header */
+.header {
+  &__background {
+    display: flex;
+    justify-content: center;
+    background-color: $sky;
+  }
+  &__background--size {
+    width: 100vw;
+  }
+  &__background--margin-top {
+    margin-top: 150px;
+  }
+  &__profile-picture-container {
+    margin-top: $margin-16px;
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    overflow: hidden;
+    &__img--size {
+      height: 163px;
+      width: 86px;
+    }
+  }
+  &__h2--margin {
+    margin-top: $margin-24px;
+    margin-bottom: $margin-16px;
+  }
+}
+
+/* Inputs */
+.information {
+  margin-top: $margin-48px;
+  &__input {
+    outline: none;
+    width: 327px;
+    height: 44px;
+    color: $black;
+    background-color: $white;
+    border: 1px solid $clay;
+    border-radius: 8px;
+    margin-top: 6px;
+    margin-bottom: $margin-24px;
+    padding-left: 16px;
+    &::placeholder {
+      color: $purple;
+    }
+    &:focus {
+      border: 1px solid $black;
+    }
+  }
+}
+
+/* Navbar */
+.navbar {
+  position: absolute;
+  bottom: 0;
+  &__navbar-rectangle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 17px;
+    padding-right: 17px;
+    box-shadow: 0px 4px 15px 3px rgba(0, 0, 0, 0.05);
+    background-color: $white;
+    width: 375px;
+    height: 75px;
+    &__section {
+      display: flex;
+      flex-direction: row;
+      &--icon-separate {
+        width: 25px;
+      }
+      &--icon-wrap {
+        transition: background-color 0.25s;
+        height: 48px;
+        width: 48px;
+        border-radius: 50%;
+      }
+      &--icon-wrap:hover {
+        background-color: rgba(0, 0, 0, 0.15);
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+/* "Responsive" */
+
+//  "Modify" icon positioning
+@media screen and (min-width: 421px) {
+  .header {
+    & .icon-pos {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      margin-left: 120px;
+      transform: translate(50%, 50%);
+    }
+  }
+}
+
+@media screen and (max-width: 420px) {
+  .header {
+    & .icon-pos {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+    }
+  }
+}
+
+// Input and Navbar resizing
+@media screen and (max-width: 360px) {
+  .information__input {
+    max-width: 250px;
+  }
+  .navbar__navbar-rectangle {
+    max-width: 360px;
+    &__section--icon-separate {
+      width: 15px;
+    }
+  }
+}
+
+@media screen and (max-width: 280px) {
+  .customization__ul {
+    display: grid;
+    grid-template-columns: repeat(3, 64px);
+    padding: 0px;
+    gap: 24px;
+  }
+  .information__input {
+    max-width: 230px;
+  }
+  .navbar__navbar-rectangle {
+    width: 280px;
+    justify-content: space-evenly;
+    &__section--icon-separate {
+      width: 10px;
+    }
+  }
+}
+
+@media screen and (max-width: 240px) {
+  .customization__ul {
+    display: grid;
+    grid-template-columns: repeat(2, 64px);
+    padding: 0px;
+    gap: 24px;
+  }
+  .information__input {
+    max-width: 200px;
+  }
+  .navbar__navbar-rectangle {
+    width: 240px;
+    &__section--icon-separate {
+      width: 2px;
+    }
+  }
+}
+
+// Footer stick to bottom when scroll needed
+@media screen and (max-height: 720px) {
+  .navbar {
+    position: sticky;
+  }
+}
