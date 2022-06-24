@@ -2,13 +2,14 @@
 CREATE TABLE `User` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(191) NOT NULL,
+    `email` VARCHAR(191) NOT NULL,
     `password` VARCHAR(191) NOT NULL,
     `birthdate` DATETIME(3) NULL,
     `locationId` INTEGER NOT NULL,
     `characterId` INTEGER NOT NULL,
     `landscapeId` INTEGER NOT NULL,
 
-    UNIQUE INDEX `User_locationId_key`(`locationId`),
+    UNIQUE INDEX `User_email_key`(`email`),
     UNIQUE INDEX `User_characterId_key`(`characterId`),
     UNIQUE INDEX `User_landscapeId_key`(`landscapeId`),
     PRIMARY KEY (`id`)
@@ -99,6 +100,7 @@ CREATE TABLE `Shop` (
 
     UNIQUE INDEX `Shop_codeId_key`(`codeId`),
     UNIQUE INDEX `Shop_locationId_key`(`locationId`),
+    FULLTEXT INDEX `Shop_name_idx`(`name`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 

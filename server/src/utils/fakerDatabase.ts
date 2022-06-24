@@ -24,6 +24,7 @@ const createUser = async () => {
   await prisma.user.create({
     data: {
       name: faker.name.firstName(),
+      email: faker.internet.email(),
       password: faker.internet.password(),
       birthdate: faker.date.past(),
       location: {
