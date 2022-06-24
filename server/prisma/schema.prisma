@@ -22,6 +22,7 @@ model User {
   itemsUnlocked   Item[]
   character       Character        @relation(fields: [characterId], references: [id])
   landscape       Landscape        @relation(fields: [landscapeId], references: [id])
+  passwordResetRequest PasswordResetRequest?
   completedQuests CompletedQuest[]
   visitedShop     VisitedShop[]
 
@@ -159,4 +160,11 @@ model Location {
 
   users           User[]
   associatedShops Shop[]
+}
+
+model PasswordResetRequest {
+  id    Int    @id @default(autoincrement())
+  token String @unique @default(uuid())
+  userId Int
+  user User @relation(fields: [userId], references: [id])
 }
