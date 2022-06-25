@@ -20,6 +20,7 @@ model User {
   location        Location         @relation(fields: [locationId], references: [id])
   earnedBadges    Badge[]
   itemsUnlocked   Item[]
+  scannedCodes    Code[]
   character       Character        @relation(fields: [characterId], references: [id])
   landscape       Landscape        @relation(fields: [landscapeId], references: [id])
   completedQuests CompletedQuest[]
@@ -74,7 +75,7 @@ model CompletedQuest {
 }
 
 model Badge {
-  id    Int    @id @default(autoincrement())
+  id    String    @id @default(uuid())
   name  String
   value Int
   tags  Tag[]
@@ -104,6 +105,7 @@ model Code {
   id String @id @default(uuid())
 
   associatedQuestMissions QuestMission[]
+  associatedUsers         User[]
   associatedShop          Shop?
 }
 
