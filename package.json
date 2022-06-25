@@ -19,8 +19,5 @@
     "concurrently": "^7.2.1",
     "husky": "^8.0.1",
     "ts-node": "^10.8.1"
-  },
-  "dependencies": {
-    "remixicon": "^2.5.0"
   }
 }
