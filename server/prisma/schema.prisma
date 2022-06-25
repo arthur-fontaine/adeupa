@@ -48,6 +48,7 @@ model Landscape {
 model Item {
   id             Int      @id @default(autoincrement())
   type           ItemType
+  value          String
   requiredBadges Badge[]
 
   ownedBy              User[]
@@ -56,10 +57,8 @@ model Item {
 }
 
 enum ItemType {
-  CharacterHead
   CharacterColor
   CharacterClothes
-  CharacterAnimation
   LandscapeSkyColor
   LandscapeDistrict
 }
