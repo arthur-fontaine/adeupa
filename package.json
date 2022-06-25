@@ -17,6 +17,7 @@
     "@commitlint/cli": "^17.0.2",
     "@commitlint/config-conventional": "^17.0.2",
     "concurrently": "^7.2.1",
-    "husky": "^8.0.1"
+    "husky": "^8.0.1",
+    "ts-node": "^10.8.1"
   }
 }
