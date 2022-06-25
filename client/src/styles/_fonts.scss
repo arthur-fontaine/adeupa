@@ -1,0 +1,86 @@
+@font-face {
+  font-family: 'Poppins';
+  font-weight: 900;
+  src: url('./../assets/fonts/Poppins-Black.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Poppins';
+  font-weight: 700;
+  src: url('./../assets/fonts/Poppins-Bold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Poppins';
+  font-weight: 500;
+  src: url('./../assets/fonts/Poppins-Medium.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Poppins';
+  font-weight: 400;
+  src: url('./../assets/fonts/Poppins-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Poppins';
+  font-weight: 300;
+  src: url('./../assets/fonts/Poppins-Light.ttf') format('truetype');
+}
+
+* {
+  font-family: 'Poppins', sans-serif;
+}
+
+@mixin h1 {
+  font-weight: 900;
+  font-size: 1.5rem;
+  line-height: calc(1.5rem * 1.2);
+}
+
+@mixin h2 {
+  font-weight: 700;
+  font-size: 1.25rem;
+  line-height: calc(1.25rem * 1.2);
+}
+
+@mixin h3 {
+  font-weight: 500;
+  font-size: 0.875rem;
+  line-height: calc(0.875rem * 1.2);
+}
+
+@mixin body {
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: calc(0.875rem * 1.5);
+}
+
+@mixin label {
+  font-weight: 300;
+  font-size: 0.75rem;
+  line-height: calc(0.75rem * 1);
+}
+
+@mixin button {
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: calc(0.875rem * 1);
+}
+
+h1 {
+  @include h1;
+}
+
+h2 {
+  @include h2;
+}
+
+h3 {
+  @include h3;
+}
+
+p {
+  @include body;
+}
+

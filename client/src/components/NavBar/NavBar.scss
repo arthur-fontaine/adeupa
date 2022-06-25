@@ -1,7 +1,6 @@
-$colorIcon: #1d094e;
-$colorHoverIcon: #eaecff;
+@import "./../../styles/global";
 
-nav {
+nav.navigation-bar {
   width: 100%;
   height: fit-content;
 
@@ -15,7 +14,7 @@ nav {
   justify-content: space-around;
 
   .box {
-    background-color: white;
+    background-color: $white;
 
     position: absolute;
     z-index: -2;
@@ -35,12 +34,12 @@ nav {
 
   div {
     &.action-button {
-      background: #1d094e;
+      background: $purple;
 
       position: absolute;
-      top: 0%;
+      top: 0;
       left: 50%;
-      transform: translateX(-51%) translateY(-50%);
+      transform: translateX(-50%) translateY(-50%);
 
       height: calc(100% - 8px);
       aspect-ratio: 1;
@@ -62,7 +61,7 @@ nav {
     border: none;
     background-color: transparent;
     font-size: 20px;
-    color: $colorIcon;
+    color: $purple;
     padding: 0;
   }
 
@@ -74,11 +73,6 @@ nav {
     svg {
       vertical-align: middle;
     }
-  }
-
-  .sep > * {
-    background-color: #1d094e;
-    color: white;
   }
 
   $pages: "home", "search", "quests", "user";
@@ -101,7 +95,7 @@ nav {
 
         border-radius: 9999px;
 
-        background-color: $colorHoverIcon;
+        background-color: $clay;
         opacity: 0.3;
       }
     }

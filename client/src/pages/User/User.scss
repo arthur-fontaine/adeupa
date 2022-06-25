@@ -1,0 +1,49 @@
+@import "./../../styles/global";
+
+.user-page {
+  background-color: $white;
+  height: 100vh;
+  width: 100%;
+
+  &__profile-picture {
+    width: 128px;
+    height: 128px;
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: $sky;
+    display: flex;
+
+    img {
+      height: 163px;
+      width: 86px;
+
+      margin: auto;
+    }
+  }
+
+  header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 16px;
+
+    h2 {
+      color: $purple;
+      margin: 24px 0 0;
+    }
+  }
+
+  &__edit-button {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+  }
+
+  &__informations {
+    width: 100%;
+    padding: 24px 24px 0;
+
+    box-sizing: border-box;
+  }
+}

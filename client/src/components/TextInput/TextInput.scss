@@ -1,0 +1,21 @@
+@import "./../../styles/global";
+
+input.text-input {
+  outline: none;
+  width: 100%;
+  color: $purple;
+  background-color: $white;
+  border: 1px solid $clay;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-bottom: 24px;
+  box-sizing: border-box;
+
+  &::placeholder {
+    color: $purple;
+  }
+
+  &:focus {
+    border: 1px solid $purple;
+  }
+}

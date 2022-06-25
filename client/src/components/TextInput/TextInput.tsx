@@ -1,12 +1,7 @@
-import './style.scss'
+import React from 'react'
+import './TextInput.scss'
 
-function TextInput({
-  name,
-  type,
-  placeholder,
-  value,
-  onChange,
-}: {
+function TextInput({ name, type, placeholder, value, onChange }: {
   name: string
   type: string
   placeholder: string
@@ -14,15 +9,13 @@ function TextInput({
   onChange: React.ChangeEventHandler<HTMLInputElement>
 }) {
   return (
-    <div /* className="text-input" */>
-      <input className="container__form__text-input"
-        type={type}
-        name={name}
-        placeholder={placeholder}
-        value={value}
-        onChange={onChange}
-      />
-    </div>
+    <input className='text-input'
+           type={type}
+           name={name}
+           placeholder={placeholder}
+           value={value}
+           onChange={onChange}
+    />
   )
 }
 
