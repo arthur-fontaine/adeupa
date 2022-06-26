@@ -48,6 +48,7 @@ model Landscape {
 model Item {
   id             Int      @id @default(autoincrement())
   type           ItemType
+  value          String
   requiredBadges Badge[]
 
   ownedBy              User[]
@@ -56,11 +57,8 @@ model Item {
 }
 
 enum ItemType {
-  CharacterHead
   CharacterColor
   CharacterClothes
-  CharacterAnimation
-  LandscapeSkyColor
   LandscapeDistrict
 }
 
@@ -123,6 +121,7 @@ model Shop {
   name        String
   description String
   tags        Tag[]
+  type        ShopType?
   code        Code           @relation(fields: [codeId], references: [id])
   location    Location       @relation(fields: [locationId], references: [id])
   schedules   ShopSchedule[]
@@ -134,6 +133,13 @@ model Shop {
   associatedVisitedShops VisitedShop[]
 
   @@fulltext([name])
+}
+
+enum ShopType {
+    Flower
+    Food
+    Toy
+    Other
 }
 
 model Tag {
