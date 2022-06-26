@@ -1,9 +1,9 @@
-import { useState } from 'react'
-import axios from 'axios'
+import React, { useState } from 'react'
 import './Login.scss'
 import TextButton from '../../components/TextButton/TextButton'
 import TextInput from '../../components/TextInput/TextInput'
 import character from '../../assets/images/Character.svg'
+import axiosInstance from '../../utils/axiosInstance'
 
 function Login() {
   const initialValues = { email: '', password: '' }
@@ -29,15 +29,17 @@ function Login() {
     }
   }
 
-  const login = async () => {
+  const login:  React.MouseEventHandler<HTMLButtonElement> = async (e) => {
+    e.preventDefault()
+
     setEmailError(validateEmail(email))
     setPasswordError(validatePassword(password))
 
-    const response = await axios.post('http://localhost:3001/sessions', {
+    const response = await axiosInstance.post('/sessions', {
       email,
       password,
     })
-    const data = await response.data()
+    const data = response.data
 
     localStorage.setItem('token', data.token)
   }
