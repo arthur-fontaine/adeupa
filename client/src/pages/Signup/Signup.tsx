@@ -1,10 +1,10 @@
 import { useState } from 'react'
-import axios from 'axios'
 import './Signup.scss'
 import '../../App.scss'
 import TextButton from '../../components/TextButton/TextButton'
 import TextInput from '../../components/TextInput/TextInput'
 import character from '../../assets/images/Character.svg'
+import axiosInstance from '../../utils/axiosInstance'
 
 function Signup() {
   const initialValues = {
@@ -47,7 +47,7 @@ function Signup() {
     setEmailError(validateEmail(email))
     setPasswordError(validatePassword(password))
 
-    await axios.post('http://localhost:3001/users', {
+    await axiosInstance.post('/users', {
       email,
       password,
       birthdate,
@@ -55,7 +55,7 @@ function Signup() {
       name,
     })
 
-    const response = await axios.post('http://localhost:3001/sessions', {
+    const response = await axiosInstance.post('/sessions', {
       email,
       password,
     })

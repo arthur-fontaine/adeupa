@@ -24,6 +24,7 @@ const userMe: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
       schema: {
         querystring: Joi.object({
           name: Joi.string().optional(),
+          email: Joi.string().optional(),
           birthdate: Joi.date().optional(),
           location: Joi.string().optional(),
         }),
@@ -43,9 +44,10 @@ const userMe: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
 
       const {
         name,
+        email,
         birthdate,
         location,
-      } = request.query as { name?: string, birthdate?: Date, location?: string }
+      } = request.query as { name?: string, email?: string; birthdate?: Date, location?: string }
 
       let assignedLocation: Exclude<Awaited<ReturnType<typeof prisma.location.findFirst>>, null> | undefined
 
@@ -77,6 +79,7 @@ const userMe: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
         where: { id: user.id },
         data: {
           name,
+          email,
           birthdate,
           location: assignedLocation ? { connect: { id: assignedLocation.id } } : undefined,
         },
