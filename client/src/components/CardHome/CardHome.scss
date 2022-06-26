@@ -1,0 +1,191 @@
+$button-container-height: 1.1rem;
+$button-padding: 4px;
+$mask-position: 2rem;
+$mask-width: 128;
+$mask-height: 20.5;
+$mask-real-height: 41;
+
+html,
+body {
+  height: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card {
+  width: calc(100% - 48px);
+  margin-top: 16px;
+  position: relative;
+  z-index: 1;
+
+  h1 {
+    font-size: 20px;
+    font-weight: 700;
+    font-family: Poppins;
+    color: #1d094e;
+    margin: 0;
+    margin-bottom: 20px;
+  }
+
+  &__content {
+    padding: 8px;
+    padding-bottom: 20px;
+    border-radius: 8px 8px 0 0;
+    gap: 8px;
+
+    display: flex;
+    flex-direction: column;
+
+    background-color: white;
+  }
+
+  &__description{
+    padding: 0 12px;
+  }
+
+  &__badges {
+    font-family: Poppins;
+    font-size: 10px;
+    color: #8b8c94;
+    display: flex;
+    gap: 8px;
+  }
+
+  &__badge {
+    background-color: #eaecff;
+    border-radius: 99999px;
+    padding: 6px 12px;
+    line-height: 1;
+  }
+
+  &__like {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 99999px;
+    background-color: #eaecff;
+    width: 50px;
+    height: 50px;
+    border: 6px solid white;
+    position: absolute;
+    z-index: 1;
+    bottom: 0;
+    right: 10%;
+
+    & > .ri-heart-line {
+      font-size: 24px;
+    }
+  }
+
+  &__img {
+    position: relative;
+
+    img {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      clip-path: url(#badge);
+    }
+
+    svg {
+      position: absolute;
+    }
+  }
+
+  &__title {
+    margin: 0;
+  }
+
+  &__stats {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+
+    h3 {
+      margin: 0;
+    }
+
+    .mention {
+      gap: 10px;
+      display: flex;
+      color: #1d094e;
+      font-size: 14px;
+      font-family: Poppins;
+    }
+
+    .like > * {
+      padding-right: 5px;
+    }
+
+    .distance > * {
+      padding-right: 5px;
+    }
+  }
+
+  footer {
+    position: relative;
+
+    svg {
+      position: absolute;
+    }
+  }
+
+  &__footer-background {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+
+    border-radius: 0 0 8px 8px;
+
+    background-color: white;
+
+    -webkit-mask: url('data:image/svg+xml;utf8,<svg viewBox="0 0 #{$mask-width} #{$mask-height}" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="#{$mask-width}" height="#{$mask-real-height}" rx="#{$mask-height}" fill="black" /></svg>')
+        0/100% 100%,
+      linear-gradient(#fff, #fff);
+    mask: url('data:image/svg+xml;utf8,<svg viewBox="0 0 #{$mask-width} #{$mask-height}" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="#{$mask-width}" height="#{$mask-real-height}" rx="#{$mask-height}" fill="black" /></svg>')
+      0/100% 100%,
+    linear-gradient(#fff, #fff);
+    -webkit-mask-composite: xor;
+    mask-composite: xor;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: contain;
+    -webkit-mask-size: contain;
+    mask-size: container;
+    -webkit-mask-position: $mask-position 0, center;
+    mask-position: $mask-position 0, center;
+  }
+
+  &__button {
+    &-container {
+      height: $button-container-height;
+    }
+
+    width: calc(
+      #{$button-container-height} * #{$mask-width} / #{$mask-height} - (#{$button-padding} *
+            2)
+    );
+    aspect-ratio: #{$mask-width} / #{$mask-height};
+
+    position: relative;
+    left: $mask-position;
+    transform: translateX(
+        calc(
+          #{$button-container-height} * #{$mask-width} / #{$mask-real-height} - 50%
+        )
+      )
+      translateY(#{$button-padding});
+    padding: $button-padding 0;
+
+    background-color: #f4e06d;
+
+    border-radius: 9999px;
+    font-family: Poppins;
+    font-size: 13px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
