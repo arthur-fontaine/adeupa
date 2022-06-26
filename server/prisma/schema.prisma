@@ -59,7 +59,6 @@ model Item {
 enum ItemType {
   CharacterColor
   CharacterClothes
-  LandscapeSkyColor
   LandscapeDistrict
 }
 
@@ -122,6 +121,7 @@ model Shop {
   name        String
   description String
   tags        Tag[]
+  type        ShopType?
   code        Code           @relation(fields: [codeId], references: [id])
   location    Location       @relation(fields: [locationId], references: [id])
   schedules   ShopSchedule[]
@@ -133,6 +133,13 @@ model Shop {
   associatedVisitedShops VisitedShop[]
 
   @@fulltext([name])
+}
+
+enum ShopType {
+    Flower
+    Food
+    Toy
+    Other
 }
 
 model Tag {

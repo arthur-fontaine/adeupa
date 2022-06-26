@@ -20,33 +20,37 @@ const createShop = async () => {
   })
 }
 
-const createUser = async () => {
-  await prisma.user.create({
-    data: {
-      name: faker.name.firstName(),
-      email: faker.internet.email(),
-      password: faker.internet.password(),
-      birthdate: faker.date.past(),
-      location: {
-        create: {
-          name: faker.address.city(),
-          latitude: parseFloat(faker.address.latitude()),
-          longitude: parseFloat(faker.address.longitude()),
-        },
-      },
-      character: {
-        create: {},
-      },
-      landscape: {
-        create: {},
-      },
-    },
-  })
-}
+// const createUser = async () => {
+//   await prisma.user.create({
+//     data: {
+//       name: faker.name.firstName(),
+//       email: faker.internet.email(),
+//       password: faker.internet.password(),
+//       birthdate: faker.date.past(),
+//       location: {
+//         create: {
+//           name: faker.address.city(),
+//           latitude: parseFloat(faker.address.latitude()),
+//           longitude: parseFloat(faker.address.longitude()),
+//         },
+//       },
+//       character: {
+//         create: {},
+//       },
+//       landscape: {
+//         create: {},
+//       },
+//     },
+//   })
+// }
 
-export const fakerDatabase = async () => {
+const fakerDatabase = async () => {
   for (let i = 0; i < 100; i++) {
     await createShop()
-    await createUser()
+    // await createUser()
   }
 }
+
+(async () => {
+  await fakerDatabase()
+})()
