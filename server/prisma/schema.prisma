@@ -49,6 +49,7 @@ model Item {
   id             Int      @id @default(autoincrement())
   type           ItemType
   value          String
+  label          String
   requiredBadges Badge[]
 
   ownedBy              User[]
