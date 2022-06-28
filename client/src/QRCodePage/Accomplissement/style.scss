@@ -1,0 +1,65 @@
+.card__accomplishment{
+
+    .card__accomplishment html {
+        height: 100vh;
+        width: 100%;
+    }
+
+    body {
+        height: 100vh;
+        width: 100%;
+        margin: 0;
+    }
+
+    #root {
+        width: 100%;
+        height: 100vh;
+    }
+
+    .card__parent {
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        align-items: flex-end;
+    }
+
+    .card {
+        display: flex;
+        width: 100%;
+        align-items: flex-start;
+        padding: 24px;
+        gap: 24px;
+        height: 100px;
+        box-shadow: 0px 4px 15px 3px rgba(0, 0, 0, 0.05);
+        border-radius: 16px 16px 0px 0px;
+        background: #FCFCFC;
+        z-index: 2;
+    }
+
+    .card__text {
+        width: 100%;
+    }
+
+    h2 {
+        color: #1D094E;
+
+        font-family: 'Poppins';
+        font-style: normal;
+        font-weight: 700;
+        font-size: 20px;
+        line-height: 24px;
+    }
+
+    p {
+        /* Body - Poppins Regular 14px */
+        font-family: 'Poppins';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 21px;
+
+        /* Black */
+        color: #000000;
+    }
+
+}
