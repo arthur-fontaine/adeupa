@@ -5,6 +5,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from './pages/Login/Login';
 import Signup from './pages/Signup/Signup';
 import User from './pages/User/User'
+import Shop from './pages/Shop/Shop'
 
 function App() {
   const isLoggedIn = localStorage.getItem('token') !== null;
@@ -18,6 +19,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/user" element={<User />} />
+          <Route path="/shops/:shopId" element={<Shop />} />
 
           {/*<Route path="/" element={<Home />} />*/}
           {/*<Route path="/search" element={<Search />} />*/}
