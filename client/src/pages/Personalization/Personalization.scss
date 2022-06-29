@@ -1,0 +1,105 @@
+@import '../../styles/global.scss';
+
+.personalization-page {
+  background-color: $sky;
+  height: 100vh;
+  width: 100%;
+  &__header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    &.--padding-top {
+      padding-top: 150px;
+    }
+
+    & img {
+      height: 163px;
+      width: 86px;
+    }
+  }
+  .customization {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 90px;
+    height: 350px;
+    padding: 24px;
+    gap: 24px;
+    max-width: 100%;
+    background: $white;
+    box-shadow: 0px 4px 15px 3px rgba(0, 0, 0, 0.05);
+    border-radius: 16px 16px 16px 16px;
+    &__categories {
+      display: flex;
+      align-items: flex-start;
+      justify-content: flex-start;
+      gap: 24px;
+      button {
+        background: none;
+        border: none;
+        height: 32px;
+        width: 32px;
+        &#color-button {
+          background: url(../../assets/images/color.svg) no-repeat;
+        }
+        &#clothes-button {
+          background: url(../../assets/images/clothes.svg) no-repeat;
+        }
+        &#background-button {
+          background: url(../../assets/images/background.svg) no-repeat;
+        }
+      }
+      button:focus {
+        filter: brightness(0) saturate(100%) invert(63%) sepia(96%)
+          saturate(4168%) hue-rotate(326deg) brightness(111%) contrast(99%);
+      }
+    }
+    &__ul {
+      display: grid;
+      grid-template-columns: repeat(4, 64px);
+      padding: 0px;
+      gap: 24px;
+
+      &__li {
+        height: 64px;
+        width: 64px;
+        list-style: none;
+      }
+      .li--color {
+        border-radius: 8px;
+        outline: 1px solid $white;
+        outline-offset: -4px;
+      }
+      .li--clothes {
+        border-radius: 8px;
+        outline: 1px solid $white;
+        outline-offset: -4px;
+      }
+      .li--background {
+        border-radius: 8px;
+        outline: 1px solid $white;
+        outline-offset: -4px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 280px) {
+  .customization__ul {
+    display: grid;
+    grid-template-columns: repeat(3, 64px);
+    padding: 0px;
+    gap: 24px;
+  }
+}
+
+@media screen and (max-width: 240px) {
+  .customization__ul {
+    display: grid;
+    grid-template-columns: repeat(2, 64px);
+    padding: 0px;
+    gap: 24px;
+  }
+}
