@@ -42,6 +42,8 @@ function Login() {
     const data = response.data
 
     localStorage.setItem('token', data.token)
+
+    window.location.href = '/'
   }
 
   const signup = () => {

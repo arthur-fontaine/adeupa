@@ -27,8 +27,8 @@ const shop: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
       return data => {
         return (schema as unknown as ReturnType<typeof Joi.object>).validate(data)
       }
-    }
-  }, async function (request, reply) {
+    },
+  }, async function(request, reply) {
     const { shopId } = request.params as { shopId: string }
     const { include: includeRaw } = request.query as { include?: string }
 
@@ -40,6 +40,7 @@ const shop: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
         schedules: true,
         location: true,
         tags: true,
+        likedBy: true,
       },
     })
 
@@ -47,7 +48,9 @@ const shop: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
       return reply.notFound()
     }
 
-    let shopInclude = {} as Parameters<typeof includeShopFiles>[1]
+    let shopInclude = {
+      likes: [],
+    } as Parameters<typeof includeShopFiles>[1]
 
     let user: PrismaClient.User & { landscape: PrismaClient.Landscape & { enabledItems: PrismaClient.Item[]; }; } | undefined
 
@@ -58,6 +61,13 @@ const shop: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
           landscape: { include: { enabledItems: true } },
         },
       }) ?? undefined
+
+      if (user) {
+        shopInclude = {
+          ...shopInclude,
+          liked: [user],
+        }
+      }
     }
 
     if (include.includes('image')) {
@@ -74,7 +84,11 @@ const shop: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
       }
     }
 
-    return Object.assign(shop, includeShopFiles(shop, shopInclude))
+    const {
+      likedBy,
+      ...shopWithoutLikedBy
+    } = Object.assign(Object.assign(shop, { likes: shop.likedBy.length }), includeShopFiles(shop, shopInclude))
+    return shopWithoutLikedBy
   })
 }
 

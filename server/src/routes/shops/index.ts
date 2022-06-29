@@ -133,6 +133,7 @@ const shops: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
         schedules: true,
         location: true,
         tags: true,
+        likedBy: true,
       },
     })
 
@@ -167,6 +168,10 @@ const shops: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
 
     shops = shops.slice(offset, offset + limit)
 
+    shops = shops.map(shop => {
+      return Object.assign(shop, { likes: shop.likedBy.length })
+    })
+
     let user: PrismaClient.User & { landscape: PrismaClient.Landscape & { enabledItems: PrismaClient.Item[]; }; } | undefined
 
     if (request.user) {
@@ -178,9 +183,18 @@ const shops: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
       }) ?? undefined
     }
 
-    shops = shops.map((shop) => {
-      let shopInclude = {} as Parameters<typeof includeShopFiles>[1]
+    let shopInclude = {
+      likes: [],
+    } as Parameters<typeof includeShopFiles>[1]
 
+    if (user) {
+      shopInclude = {
+        ...shopInclude,
+        liked: [user],
+      }
+    }
+
+    shops = shops.map((shop) => {
       if (include.includes('image')) {
         shopInclude = {
           ...shopInclude,
@@ -198,7 +212,10 @@ const shops: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
       return Object.assign(shop, includeShopFiles(shop, shopInclude))
     })
 
-    return shops
+    return shops.map((shop) => {
+      const { likedBy, ...shopWithoutLikedBy } = shop
+      return shopWithoutLikedBy
+    })
   })
 }
 

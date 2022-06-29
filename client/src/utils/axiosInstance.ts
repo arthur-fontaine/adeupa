@@ -8,7 +8,9 @@ const axiosInstance = axios.create({
         headers.Authorization = `Bearer ${localStorage.getItem('token')}`
       }
     }
-  }],
+
+    return data
+  }, ...(axios.defaults.transformRequest ? typeof axios.defaults.transformRequest === 'function' ? [axios.defaults.transformRequest] : axios.defaults.transformRequest : [])],
 })
 
 export default axiosInstance
