@@ -1,0 +1,12 @@
+@import '../../styles/global.scss';
+
+.quests-page__daily {
+    display: flex;
+    flex-direction: column;
+    max-width: 100%;
+    background-color: $white;
+    border-radius: 16px 16px 0 0;
+    padding: 12px 24px;
+    box-sizing: border-box;
+    gap: 16px;
+}
