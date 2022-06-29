@@ -1,12 +1,17 @@
-@import "fonts";
-@import "colors";
+@import 'fonts';
+@import 'colors';
 
 html {
   height: 100vh;
   background-color: $white;
 }
 
-body, #root {
+body,
+#root {
   height: 100%;
   width: 100%;
+}
+
+a {
+  text-decoration: none;
 }
