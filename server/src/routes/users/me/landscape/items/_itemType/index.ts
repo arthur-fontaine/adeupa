@@ -3,22 +3,22 @@ import fastifyPassport from '@fastify/passport'
 import prisma from './../../../../../../utils/prisma'
 import PrismaClient from '@prisma/client'
 
-const itemUnlocked = (item: PrismaClient.Item & {requiredBadges: PrismaClient.Badge[]}, user: PrismaClient.User & {earnedBadges: PrismaClient.Badge[]}): boolean => {
-    for (let index = 0; index < item.requiredBadges.length; index++) {
-      const requiredBadge = item.requiredBadges[index]
-      if (!user.earnedBadges.find((earnedBadge) => earnedBadge.id === requiredBadge.id)) {
-        return false
-      }
+const itemUnlocked = (item: PrismaClient.Item & { requiredBadges: PrismaClient.Badge[] }, user: PrismaClient.User & { earnedBadges: PrismaClient.Badge[] }): boolean => {
+  for (let index = 0; index < item.requiredBadges.length; index++) {
+    const requiredBadge = item.requiredBadges[index]
+    if (!user.earnedBadges.find((earnedBadge) => earnedBadge.id === requiredBadge.id)) {
+      return false
     }
+  }
 
-    return true
+  return true
 }
 
-const characterItem: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
+const landscapeItem: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
   fastify.get(
     '/',
     { preValidation: fastifyPassport.authenticate('jwt', { authInfo: false }) },
-    async function (request, reply) {
+    async function(request, reply) {
       if (!request.user) {
         return reply.unauthorized()
       }
@@ -27,23 +27,23 @@ const characterItem: FastifyPluginAsync = async (fastify, opts): Promise<void> =
 
       const user = await prisma.user.findUnique({
         where: { id: request.user.id },
-        include: { earnedBadges: true }
+        include: { earnedBadges: true },
       })
 
       if (!user) {
         return reply.unauthorized()
       }
 
-      if (itemType !== 'color' && itemType !== 'clothes') {
+      if (itemType !== 'district') {
         return reply.badRequest(
-          'itemType should be equal to "color" or "clothes"'
+          'itemType should be equal to "district"'
         )
       }
 
       const items = await prisma.item.findMany({
         where: {
           ownedBy: { every: { id: user.id } },
-          type: itemType === 'color' ? 'CharacterColor' : 'CharacterClothes',
+          type: itemType === 'district' ? 'LandscapeDistrict' : 'LandscapeDistrict',
         },
         include: {
           requiredBadges: true,
@@ -53,18 +53,18 @@ const characterItem: FastifyPluginAsync = async (fastify, opts): Promise<void> =
       const filteredItems = items.map((item) => {
         return {
           ...item,
-          unlocked: itemUnlocked(item, user)
+          unlocked: itemUnlocked(item, user),
         }
       })
 
       return reply.send({ items: filteredItems })
-    }
+    },
   )
 
   fastify.put(
     '/',
     { preValidation: fastifyPassport.authenticate('jwt', { authInfo: false }) },
-    async function (request, reply) {
+    async function(request, reply) {
       const { itemType } = request.params as { itemType: string }
       const { itemId } = request.query as { itemId: string }
 
@@ -74,16 +74,16 @@ const characterItem: FastifyPluginAsync = async (fastify, opts): Promise<void> =
 
       const user = await prisma.user.findUnique({
         where: { id: request.user.id },
-        include: { earnedBadges: true }
+        include: { earnedBadges: true },
       })
 
       if (!user) {
         return reply.unauthorized()
       }
 
-      if (itemType !== 'color' && itemType !== 'clothes') {
+      if (itemType !== 'district') {
         return reply.badRequest(
-          'itemType should be equal to "color" or "clothes"'
+          'itemType should be equal to "district"'
         )
       }
 
@@ -100,9 +100,9 @@ const characterItem: FastifyPluginAsync = async (fastify, opts): Promise<void> =
       const item = await prisma.item.findFirst({
         where: {
           id: parseInt(itemId),
-          type: itemType === 'color' ? 'CharacterColor' : 'CharacterClothes',
+          type: itemType === 'district' ? 'LandscapeDistrict' : 'LandscapeDistrict',
         },
-        include: { requiredBadges: true }
+        include: { requiredBadges: true },
       })
 
       if (!item) {
@@ -116,7 +116,7 @@ const characterItem: FastifyPluginAsync = async (fastify, opts): Promise<void> =
       const currentSelectedItem = await prisma.item.findFirst({
         where: {
           associatedCharacters: { some: { id: character.id } },
-          type: itemType === 'color' ? 'CharacterColor' : 'CharacterClothes',
+          type: itemType === 'district' ? 'LandscapeDistrict' : 'LandscapeDistrict',
         },
       })
 
@@ -133,8 +133,8 @@ const characterItem: FastifyPluginAsync = async (fastify, opts): Promise<void> =
       })
 
       return reply.send()
-    }
+    },
   )
 }
 
-export default characterItem
+export default landscapeItem
