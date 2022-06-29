@@ -5,6 +5,7 @@ import TextButton from '../../components/TextButton/TextButton'
 import TextInput from '../../components/TextInput/TextInput'
 import character from '../../assets/images/Character.svg'
 import axiosInstance from '../../utils/axiosInstance'
+// import background from '../../assets/images/Background.png'
 
 function Signup() {
   const initialValues = {
@@ -70,6 +71,10 @@ function Signup() {
 
   return (
     <div className='signup-page'>
+      {/* <img className='signup-page__background'
+      src={background}
+      alt="background"
+      /> */}
       <header className='signup-page__header'>
         <img
           src={character}
