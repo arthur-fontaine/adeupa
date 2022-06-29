@@ -1,6 +1,6 @@
 div.icon-button {
   button {
-    background-color: #FE6363;
+    background-color: #fe6363;
     height: 40px;
     width: 40px;
     border-radius: 4px;
@@ -14,4 +14,10 @@ div.icon-button {
       height: 20px;
     }
   }
+}
+
+.IconButton {
+  position: absolute;
+  top: 16px;
+  right: 16px;
 }
