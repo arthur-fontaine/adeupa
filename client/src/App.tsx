@@ -9,6 +9,7 @@ import Home from './pages/Home/Home'
 import LocationContext, {LocationContextType} from './contexts/LocationContext'
 import getLocation from './utils/getLocation'
 import registerSwipeEvent from './events/drag'
+import Scanner from './pages/Scanner/Scanner'
 
 function App() {
   registerSwipeEvent()
@@ -36,6 +37,7 @@ function App() {
 
             <Route path='/login' element={<Login />} />
             <Route path='/signup' element={<Signup />} />
+            <Route path='/scanner' element={<Scanner />} />
             <Route path='/user' element={<User />} />
 
             {/*<Route path="/" element={<Home />} />*/}

@@ -103,6 +103,7 @@ model QuestMission {
 
 model Code {
   id String @id @default(uuid())
+  description String @default("")
 
   associatedQuestMissions QuestMission[]
   associatedUsers         User[]

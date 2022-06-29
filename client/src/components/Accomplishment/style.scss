@@ -1,0 +1,42 @@
+.accomplishment-card {
+  width: 100%;
+  background: #FCFCFC;
+  box-shadow: 0 4px 15px 3px rgba(0, 0, 0, 0.05);
+  border-radius: 16px 16px 0 0;
+
+  &__content {
+    width: 100%;
+    display: flex;
+
+    align-items: flex-start;
+    padding: 24px;
+    gap: 24px;
+    height: fit-content;
+    box-sizing: border-box;
+    z-index: 2;
+  }
+
+  &__text {
+    width: 100%;
+  }
+
+  h2 {
+    color: #1D094E;
+
+    font-family: 'Poppins', sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 24px;
+  }
+
+  p {
+    font-family: 'Poppins', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+
+    color: #000000;
+  }
+}

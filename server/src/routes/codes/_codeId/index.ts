@@ -33,7 +33,7 @@ const code: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
     }
 
     if (include === 'image') {
-      const buffer = fs.readFileSync(path.join(__dirname, '..', '..', '..', '..', '..', 'public', 'codes', codeId, 'image.png'))
+      const buffer = fs.readFileSync(path.join(__dirname, '..', '..', '..', '..', 'public', 'codes', codeId, 'image.png'))
 
       Object.assign(code, {
         image: buffer.toString('base64'),

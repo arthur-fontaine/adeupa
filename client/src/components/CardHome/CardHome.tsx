@@ -39,10 +39,10 @@ const CardHome = ({ shopImage, shopTitle, shopId, shopTags, shopLikes, shopLocat
   }
 
   return (
-    <div className="card">
-      <div className="card__content">
-        <div className="card__img">
-          <div className="card__like" onClick={likeShop}>
+    <div className="home-card">
+      <div className="home-card__content">
+        <div className="home-card__img">
+          <div className="home-card__like" onClick={likeShop}>
             <i className={shopLikedState ? 'ri-heart-fill' : 'ri-heart-line'}></i>
           </div>
 
@@ -61,10 +61,10 @@ const CardHome = ({ shopImage, shopTitle, shopId, shopTags, shopLikes, shopLocat
           </svg>
         </div>
 
-        <div className="card__description">
-          <h1 className="card__title">{shopTitle}</h1>
+        <div className="home-card__description">
+          <h1 className="home-card__title">{shopTitle}</h1>
 
-          <div className="card__stats">
+          <div className="home-card__stats">
             <h3 className="mention">
               <div className="distance">
                 <i className="ri-route-line"></i>
@@ -78,17 +78,17 @@ const CardHome = ({ shopImage, shopTitle, shopId, shopTags, shopLikes, shopLocat
             </h3>
           </div>
 
-          <div className="card__badges">
-            {shopTags.map(tag => (<div className="card__badge" key={tag}>{tag}</div>))}
+          <div className="home-card__badges">
+            {shopTags.map(tag => (<div className="home-card__badge" key={tag}>{tag}</div>))}
           </div>
         </div>
       </div>
 
       <footer>
-        <div className="card__footer-background"></div>
+        <div className="home-card__footer-background"></div>
 
-        <div className="card__button-container">
-          <div className="card__button">Voir plus</div>
+        <div className="home-card__button-container">
+          <div className="home-card__button">Voir plus</div>
         </div>
       </footer>
     </div>
