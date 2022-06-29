@@ -1,16 +1,52 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from 'react'
 import "./CardHome.scss";
+import axiosInstance from '../../utils/axiosInstance'
+import LocationContext from '../../contexts/LocationContext'
 
-const Cardhome = () => {
+const CardHome = ({ shopImage, shopTitle, shopId, shopTags, shopLikes, shopLocation, shopLiked = false }: { shopImage: string; shopTitle: string; shopId: number; shopTags: string[]; shopLikes: number; shopLiked?: boolean; shopLocation: [number, number] }) => {
+  const [shopLikedState, setShopLikedState] = useState(shopLiked);
+  const [shopDistance, setShopDistance] = useState(0);
+  const location = useContext(LocationContext);
+
+  const updateDistance = () => {
+    if (!location) return 0;
+    const [lat, lng] = location;
+    const [shopLat, shopLng] = shopLocation;
+    const R = 6371;
+    const dLat = (shopLat - lat) * (Math.PI / 180);
+    const dLng = (shopLng - lng) * (Math.PI / 180);
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(lat * (Math.PI / 180)) * Math.cos(shopLat * (Math.PI / 180)) *
+      Math.sin(dLng / 2) * Math.sin(dLng / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    const d = R * c;
+    setShopDistance(d);
+  }
+
+  useEffect(() => {
+    updateDistance();
+  }, [location]);
+
+  const likeShop = async () => {
+    if (shopLikedState) {
+      await axiosInstance.delete(`/users/me/liked-shops?shopId=${shopId}`)
+      setShopLikedState(false)
+    } else {
+      await axiosInstance.post(`/users/me/liked-shops?shopId=${shopId}`)
+      setShopLikedState(true)
+    }
+  }
+
   return (
     <div className="card">
       <div className="card__content">
         <div className="card__img">
-          <div className="card__like">
-            <i className="ri-heart-line"></i>
+          <div className="card__like" onClick={likeShop}>
+            <i className={shopLikedState ? 'ri-heart-fill' : 'ri-heart-line'}></i>
           </div>
 
-          <img src="https://images.unsplash.com/photo-1583564345817-9735ebbc0569?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=866&q=80" />
+          <img src={`data:image/png;base64,${shopImage}`} alt={shopTitle} />
 
           <svg width="0" height="0">
             <defs>
@@ -26,25 +62,24 @@ const Cardhome = () => {
         </div>
 
         <div className="card__description">
-          <h1 className="card__title">Boulangerie du Marais</h1>
+          <h1 className="card__title">{shopTitle}</h1>
 
           <div className="card__stats">
             <h3 className="mention">
               <div className="distance">
                 <i className="ri-route-line"></i>
-                <span>500m</span>
+                <span>{shopDistance.toFixed(1)}km</span>
               </div>
 
               <div className="like">
                 <i className="ri-heart-line"></i>
-                <span>2200</span>
+                <span>{shopLikes + (!shopLiked && shopLikedState ? 1 : shopLiked && !shopLikedState ? -1 : 0)}</span>
               </div>
             </h3>
           </div>
 
           <div className="card__badges">
-            <div className="card__badge">Alimentation</div>
-            <div className="card__badge">Baguette</div>
+            {shopTags.map(tag => (<div className="card__badge" key={tag}>{tag}</div>))}
           </div>
         </div>
       </div>
@@ -60,4 +95,4 @@ const Cardhome = () => {
   );
 };
 
-export default Cardhome;
+export default CardHome;

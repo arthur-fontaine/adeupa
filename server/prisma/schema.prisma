@@ -25,6 +25,7 @@ model User {
   landscape       Landscape        @relation(fields: [landscapeId], references: [id])
   completedQuests CompletedQuest[]
   visitedShop     VisitedShop[]
+  likedShops       Shop[]
 
   locationId  Int
   characterId Int @unique
@@ -129,6 +130,7 @@ model Shop {
   phoneNumber String
   website     String
 
+  likedBy User[]
   codeId                 String        @unique
   locationId             Int           @unique
   associatedVisitedShops VisitedShop[]

@@ -26,7 +26,7 @@ const userCharacter: FastifyPluginAsync = async (fastify, _opts): Promise<void> 
       return reply.unauthorized()
     }
 
-    const characterColor = user.character.enabledItems.find(item => item.type === 'CharacterColor')?.label
+    const characterColor = user.character.enabledItems.find(item => item.type === 'CharacterColor')?.label ?? 'red'
     const characterClothes = user.character.enabledItems.find(item => item.type === 'CharacterClothes')?.label ?? 'nothing'
 
     if (!characterColor || characterColor !== 'red') {

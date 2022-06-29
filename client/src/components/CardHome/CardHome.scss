@@ -5,33 +5,48 @@ $mask-width: 128;
 $mask-height: 20.5;
 $mask-real-height: 41;
 
-html,
-body {
-  height: 100%;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 .card {
-  width: calc(100% - 48px);
+  width: calc(100vw - 48px);
   margin-top: 16px;
-  position: relative;
   z-index: 1;
+  flex-shrink: 0;
+  transform-origin: center 200%;
+  grid-row-start: 1;
+  grid-column-start: 1;
+  position: relative;
+
+  @each $i in [1, 2, 3, 4, 5] {
+    &:nth-child(#{$i}) {
+      transform: rotate(calc(90deg * (#{$i - 3})));
+
+      @if $i < 3 {
+        top: 16px;
+        right: 16px;
+      }
+
+      @if $i > 3 {
+        top: 16px;
+        left: 16px;
+      }
+    }
+  }
+
+  &:nth-child(3) {
+    top: auto;
+    right: auto;
+    left: auto;
+  }
 
   h1 {
     font-size: 20px;
     font-weight: 700;
-    font-family: Poppins;
+    font-family: Poppins, sans-serif;
     color: #1d094e;
-    margin: 0;
-    margin-bottom: 20px;
+    margin: 0 0 20px;
   }
 
   &__content {
-    padding: 8px;
-    padding-bottom: 20px;
+    padding: 8px 8px 20px;
     border-radius: 8px 8px 0 0;
     gap: 8px;
 
@@ -46,7 +61,7 @@ body {
   }
 
   &__badges {
-    font-family: Poppins;
+    font-family: Poppins, sans-serif;
     font-size: 10px;
     color: #8b8c94;
     display: flex;
@@ -74,7 +89,7 @@ body {
     bottom: 0;
     right: 10%;
 
-    & > .ri-heart-line {
+    & > i {
       font-size: 24px;
     }
   }
@@ -112,15 +127,13 @@ body {
       display: flex;
       color: #1d094e;
       font-size: 14px;
-      font-family: Poppins;
-    }
+      font-family: Poppins, sans-serif;
 
-    .like > * {
-      padding-right: 5px;
-    }
-
-    .distance > * {
-      padding-right: 5px;
+      & > div {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
     }
   }
 
@@ -181,7 +194,7 @@ body {
     background-color: #f4e06d;
 
     border-radius: 9999px;
-    font-family: Poppins;
+    font-family: Poppins, sans-serif;
     font-size: 13px;
 
     display: flex;

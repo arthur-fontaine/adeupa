@@ -1,0 +1,22 @@
+.character {
+  display: contents;
+
+  img {
+    width: 168px;
+    position: absolute;
+
+    bottom: 0;
+  }
+
+  &--right {
+    img {
+      transform: scaleX(-1);
+    }
+  }
+
+  &--left {
+    img {
+      transform: scaleX(1);
+    }
+  }
+}

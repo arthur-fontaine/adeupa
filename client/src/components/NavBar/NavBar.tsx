@@ -3,8 +3,10 @@ import './NavBar.scss'
 import 'remixicon/fonts/remixicon.css'
 
 const NavBar = () => {
+  const path = window.location.pathname.split('/')[1]
+
   return (
-    <nav data-page-opened={window.location.pathname.split('/')[1]} className="navigation-bar">
+    <nav data-page-opened={path === '' ? 'home' : path} className="navigation-bar">
       <div className='box'></div>
 
       <div className='action-button'>

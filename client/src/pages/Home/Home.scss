@@ -17,16 +17,12 @@ body {
     flex-grow: 1;
     align-items: center;
     margin-bottom: 80px;
-    position: relative;
+    position: absolute;
+    bottom: 6%;
 
-    img {
-      position: absolute;
-      top: 35%;
-
-      @media screen and (min-aspect-ratio: 9/19) {
-        top: auto;
-        bottom: 20%;
-      }
+    @media screen and (min-aspect-ratio: 9/19) {
+      top: auto;
+      bottom: 0;
     }
   }
 
@@ -38,16 +34,50 @@ body {
     background-color: #8b9596;
     bottom: 0;
 
+    &-container {
+      position: absolute;
+      z-index: -1;
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+    }
+
     img {
       width: 100%;
       object-fit: cover;
       position: absolute;
       top: 0;
 
+      @each $i in [1, 2, 3, 4, 5] {
+        &:nth-child(#{$i}) {
+          transform: translateX(calc(100vw * calc((#{$i} - 3))));
+        }
+      }
+
       @media screen and (min-aspect-ratio: 9/19) {
         top: auto;
         bottom: 0;
       }
     }
+  }
+
+  &__virtual-card {
+    width: calc(100vw - 48px);
+  }
+
+  &__wheel-card-container {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  &__card-container {
+    margin: auto;
+    transform: rotate(0deg);
+    transform-origin: center 200%;
+    width: fit-content;
+    display: grid;
+    height: fit-content;
+    grid-template-columns: 1fr;
   }
 }
