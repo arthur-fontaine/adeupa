@@ -1,6 +1,7 @@
 import React from 'react'
 import './NavBar.scss'
 import 'remixicon/fonts/remixicon.css'
+import { Link } from 'react-router-dom'
 
 const NavBar = () => {
   return (
@@ -20,23 +21,31 @@ const NavBar = () => {
         </button>
       </div>
 
-      <div className='icon icon--home'>
-        <button className='ri-home-3-line'></button>
-      </div>
+      <Link to="/">
+        <div className='icon icon--home'>
+          <button className='ri-home-3-line'></button>
+        </div>
+      </Link >
 
-      <div className='icon icon--search'>
-        <button className='ri-search-line'></button>
-      </div>
+      <Link to="/search">
+        <div className='icon icon--search'>
+          <button className='ri-search-line'></button>
+        </div>
+      </Link>
 
       <div className='sep'></div>
 
-      <div className='icon icon--quests'>
-        <button className='ri-calendar-line'></button>
-      </div>
+      <Link to="/quests">
+        <div className='icon icon--quests'>
+          <button className='ri-calendar-line'></button>
+        </div>
+      </Link>
 
-      <div className='icon icon--user'>
-        <button className='ri-user-line'></button>
-      </div>
+      <Link to="/user">
+        <div className='icon icon--user'>
+          <button className='ri-user-line'></button>
+        </div>
+      </Link>
 
     </nav>
   )
