@@ -61,7 +61,11 @@ function User() {
           }
         }}>{name}</h2>
 
-        <div className='user-page__edit-button'><IconButton icon='modify' /></div>
+        <Link to="/personalization">
+          <div className="user-page__edit-button IconButton">
+            <IconButton icon="modify" />
+          </div>
+        </Link>
       </header>
 
       <div className='user-page__informations'>
