@@ -12,6 +12,7 @@ import registerSwipeEvent from './events/drag'
 import Scanner from './pages/Scanner/Scanner'
 import Personalization from './pages/Personalization/Personalization'
 import Shop from './pages/Shop/Shop'
+import Search from './pages/Search/Search'
 
 function App() {
   registerSwipeEvent()
@@ -40,12 +41,12 @@ function App() {
             <Route path='/login' element={<Login />} />
             <Route path='/signup' element={<Signup />} />
             <Route path='/scanner' element={<Scanner />} />
+            <Route path="/search" element={<Search />} />
             <Route path='/user' element={<User />} />
             <Route path='/personalization' element={<Personalization />} />
             <Route path="/shops/:shopId" element={<Shop />} />
 
             {/*<Route path="/" element={<Home />} />*/}
-            {/*<Route path="/search" element={<Search />} />*/}
             {/*<Route path="/quests" element={<Quests />} />*/}
             <Route path='*' element={<Home />} />
           </Routes>

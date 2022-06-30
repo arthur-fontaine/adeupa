@@ -31,9 +31,11 @@ const NavBar = () => {
         </div>
       </Link>
 
-      <div className='icon icon--search'>
-        <button className='ri-search-line'></button>
-      </div>
+      <Link to={'/search'}>
+        <div className='icon icon--search'>
+          <button className='ri-search-line'></button>
+        </div>
+      </Link>
 
       <div className='sep'></div>
 
