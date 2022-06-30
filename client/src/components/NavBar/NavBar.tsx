@@ -25,11 +25,11 @@ const NavBar = () => {
         </Link>
       </div>
 
-      <div className='icon icon--home'>
-        <Link to={'/'}>
+      <Link to={'/'}>
+        <div className='icon icon--home'>
           <button className='ri-home-3-line'></button>
-        </Link>
-      </div>
+        </div>
+      </Link>
 
       <div className='icon icon--search'>
         <button className='ri-search-line'></button>
@@ -41,11 +41,11 @@ const NavBar = () => {
         <button className='ri-calendar-line'></button>
       </div>
 
-      <div className='icon icon--user'>
-        <Link to={'/user'}>
+      <Link to={'/user'}>
+        <div className='icon icon--user'>
           <button className='ri-user-line'></button>
-        </Link>
-      </div>
+        </div>
+      </Link>
 
     </nav>
   )

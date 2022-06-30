@@ -69,7 +69,7 @@ function User() {
         </h2>
 
         <Link to="/personalization">
-          <div className="user-page__edit-button IconButton">
+          <div className="user-page__edit-button">
             <IconButton icon="modify" />
           </div>
         </Link>

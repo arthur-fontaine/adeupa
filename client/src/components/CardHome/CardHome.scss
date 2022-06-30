@@ -1,3 +1,5 @@
+@import '../../styles/global.scss';
+
 $button-container-height: 1.1rem;
 $button-padding: 4px;
 $mask-position: 2rem;
@@ -171,6 +173,8 @@ $mask-real-height: 41;
   }
 
   &__button {
+    color: $black;
+
     &-container {
       height: $button-container-height;
     }

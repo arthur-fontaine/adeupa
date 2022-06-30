@@ -12,6 +12,7 @@
     "@types/react-dom": "^18.0.5",
     "axios": "^0.27.2",
     "gsap": "^3.10.4",
+    "moment": "^2.29.3",
     "qr-scanner": "^1.4.1",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",

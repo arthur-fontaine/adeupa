@@ -1,0 +1,63 @@
+@import '../../styles/global.scss';
+
+.personalization-card {
+  width: 100%;
+  height: fit-content;
+
+  ul {
+    display: grid;
+    grid-template-columns: repeat(4, 64px);
+    padding: 0;
+    gap: 24px;
+    justify-content: space-between;
+    overflow-y: scroll;
+    height: 152px;
+    width: 100%;
+    list-style: none;
+    margin: 0;
+
+    @media screen and (max-width: 280px) {
+      grid-template-columns: repeat(3, 64px);
+    }
+
+    @media screen and (max-width: 240px) {
+      grid-template-columns: repeat(2, 64px);
+    }
+
+    li.personalization-card__item {
+      list-style: none;
+      border-radius: 8px;
+      outline: 1px solid $white;
+      outline-offset: -4px;
+      width: 64px;
+      height: 64px;
+      position: relative;
+
+      &[data-selected="true"] {
+        &:after {
+          content: '';
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0Ij48cGF0aCBmaWxsPSJub25lIiBkPSJNMCAwaDI0djI0SDB6Ii8+PHBhdGggZD0iTTEwIDE1LjE3Mmw5LjE5Mi05LjE5MyAxLjQxNSAxLjQxNEwxMCAxOGwtNi4zNjQtNi4zNjQgMS40MTQtMS40MTR6IiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDEpIi8+PC9zdmc+');
+          background-position: center;
+          background-repeat: no-repeat;
+        }
+      }
+
+      &[data-unlocked="false"] {
+        background-color: #CDCDCD!important;
+
+        &:after {
+          content: '';
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0Ij48cGF0aCBmaWxsPSJub25lIiBkPSJNMCAwaDI0djI0SDB6Ii8+PHBhdGggZD0iTTE5IDEwaDFhMSAxIDAgMCAxIDEgMXYxMGExIDEgMCAwIDEtMSAxSDRhMSAxIDAgMCAxLTEtMVYxMWExIDEgMCAwIDEgMS0xaDFWOWE3IDcgMCAxIDEgMTQgMHYxek01IDEydjhoMTR2LThINXptNiAyaDJ2NGgtMnYtNHptNi00VjlBNSA1IDAgMCAwIDcgOXYxaDEweiIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwxKSIvPjwvc3ZnPg==');
+          background-position: center;
+          background-repeat: no-repeat;
+        }
+      }
+    }
+  }
+}
