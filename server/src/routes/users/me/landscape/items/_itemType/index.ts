@@ -14,6 +14,10 @@ const itemUnlocked = (item: PrismaClient.Item & { requiredBadges: PrismaClient.B
   return true
 }
 
+const itemSelected = (item: PrismaClient.Item & { requiredBadges: PrismaClient.Badge[], associatedLandscapes: (PrismaClient.Landscape & { user: PrismaClient.User | null })[] }, user: PrismaClient.User): boolean => {
+  return item.associatedLandscapes.find((associatedLandscape) => associatedLandscape.user?.id === user.id) !== undefined
+}
+
 const landscapeItem: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
   fastify.get(
     '/',
@@ -36,7 +40,7 @@ const landscapeItem: FastifyPluginAsync = async (fastify, opts): Promise<void> =
 
       if (itemType !== 'district') {
         return reply.badRequest(
-          'itemType should be equal to "district"'
+          'itemType should be equal to "district"',
         )
       }
 
@@ -47,6 +51,11 @@ const landscapeItem: FastifyPluginAsync = async (fastify, opts): Promise<void> =
         },
         include: {
           requiredBadges: true,
+          associatedLandscapes: {
+            include: {
+              user: true,
+            }
+          }
         },
       })
 
@@ -54,6 +63,7 @@ const landscapeItem: FastifyPluginAsync = async (fastify, opts): Promise<void> =
         return {
           ...item,
           unlocked: itemUnlocked(item, user),
+          selected: itemSelected(item, user),
         }
       })
 
@@ -83,7 +93,7 @@ const landscapeItem: FastifyPluginAsync = async (fastify, opts): Promise<void> =
 
       if (itemType !== 'district') {
         return reply.badRequest(
-          'itemType should be equal to "district"'
+          'itemType should be equal to "district"',
         )
       }
 

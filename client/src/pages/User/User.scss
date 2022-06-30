@@ -1,4 +1,4 @@
-@import "./../../styles/global";
+@import './../../styles/global';
 
 .user-page {
   background-color: $white;
@@ -33,12 +33,6 @@
       margin: 24px 0 0;
       outline: none;
     }
-  }
-
-  &__edit-button {
-    position: absolute;
-    top: 16px;
-    right: 16px;
   }
 
   &__informations {

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import NavBar from '../../components/NavBar/NavBar'
 import TextInput from '../../components/TextInput/TextInput'
 import IconButton from '../../components/IconButton/IconButton'
@@ -42,44 +43,75 @@ function User() {
     getUserInfo().then()
   }, [])
 
-  const updateUserInfo = async (type: 'name' | 'email' | 'birthdate' | 'location', value: string) => {
+  const updateUserInfo = async (
+    type: 'name' | 'email' | 'birthdate' | 'location',
+    value: string
+  ) => {
     await axiosInstance.put(`/users/me?${type}=${value}`)
   }
 
   return (
-    <div className='user-page'>
-      <header className='user-page__header'>
-        <div className='user-page__profile-picture'>
-          <img
-            src={character}
-            alt="person's character"
-          />
+    <div className="user-page">
+      <header className="user-page__header">
+        <div className="user-page__profile-picture">
+          <img src={character} alt="person's character" />
         </div>
-        <h2 contentEditable={true} suppressContentEditableWarning={true} onBlur={(e) => {
-          if (e.target.textContent && e.target.textContent !== name) {
-            updateUserInfo('name', e.target.textContent).then()
-          }
-        }}>{name}</h2>
+        <h2
+          contentEditable={true}
+          suppressContentEditableWarning={true}
+          onBlur={(e) => {
+            if (e.target.textContent && e.target.textContent !== name) {
+              updateUserInfo('name', e.target.textContent).then()
+            }
+          }}
+        >
+          {name}
+        </h2>
 
-        <div className='user-page__edit-button'><IconButton icon='modify' /></div>
+        <Link to="/personalization">
+          <div className="user-page__edit-button IconButton">
+            <IconButton icon="modify" />
+          </div>
+        </Link>
       </header>
 
-      <div className='user-page__informations'>
-        <TextInput name='email' type='text' value={email} placeholder='Email' onChange={(e) => {
-          setEmail(e.target.value)
-        }} onBlur={(e) => {
-          updateUserInfo('email', e.target.value).then()
-        }} />
-        <TextInput name='birthdate' type='date' value={birthdate} placeholder="Date d'anniversaire" onChange={(e) => {
-          setBirthdate(e.target.value)
-        }} onBlur={(e) => {
-          updateUserInfo('birthdate', e.target.value).then()
-        }} />
-        <TextInput name='location' type='text' value={location} placeholder='Localisation' onChange={(e) => {
-          setLocation(e.target.value)
-        }} onBlur={(e) => {
-          updateUserInfo('location', e.target.value).then()
-        }} />
+      <div className="user-page__informations">
+        <TextInput
+          name="email"
+          type="text"
+          value={email}
+          placeholder="Email"
+          onChange={(e) => {
+            setEmail(e.target.value)
+          }}
+          onBlur={(e) => {
+            updateUserInfo('email', e.target.value).then()
+          }}
+        />
+        <TextInput
+          name="birthdate"
+          type="date"
+          value={birthdate}
+          placeholder="Date d'anniversaire"
+          onChange={(e) => {
+            setBirthdate(e.target.value)
+          }}
+          onBlur={(e) => {
+            updateUserInfo('birthdate', e.target.value).then()
+          }}
+        />
+        <TextInput
+          name="location"
+          type="text"
+          value={location}
+          placeholder="Localisation"
+          onChange={(e) => {
+            setLocation(e.target.value)
+          }}
+          onBlur={(e) => {
+            updateUserInfo('location', e.target.value).then()
+          }}
+        />
       </div>
 
       <NavBar />

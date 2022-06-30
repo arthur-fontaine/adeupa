@@ -5,6 +5,14 @@ import prisma from '../../../../utils/prisma'
 import fs from 'fs'
 import path from 'path'
 
+namespace CharacterPersonalization {
+  export const BodyValues = ['psg', 'red', 'nothing'] as const;
+  export const ColorValues = ['red', 'blue', 'green', 'orange'] as const;
+
+  export type Body = typeof BodyValues[number];
+  export type Color = typeof ColorValues[number];
+}
+
 const userCharacter: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
   fastify.get('/', {
     preValidation: fastifyPassport.authenticate('jwt', { authInfo: false }),
@@ -29,11 +37,11 @@ const userCharacter: FastifyPluginAsync = async (fastify, _opts): Promise<void> 
     const characterColor = user.character.enabledItems.find(item => item.type === 'CharacterColor')?.label ?? 'red'
     const characterClothes = user.character.enabledItems.find(item => item.type === 'CharacterClothes')?.label ?? 'nothing'
 
-    if (!characterColor || characterColor !== 'red') {
+    if (!characterColor || !(CharacterPersonalization.ColorValues.includes(characterColor as any))) {
       return reply.internalServerError()
     }
 
-    if (characterClothes !== 'nothing') {
+    if (!characterClothes || !(CharacterPersonalization.BodyValues.includes(characterClothes as any))) {
       return reply.internalServerError()
     }
 
@@ -45,8 +53,8 @@ const userCharacter: FastifyPluginAsync = async (fastify, _opts): Promise<void> 
         response: string[];
         date: number;
         props: {
-          color: 'red';
-          body: 'nothing';
+          color: CharacterPersonalization.Color;
+          body: CharacterPersonalization.Body;
         }
       }
 
@@ -56,8 +64,8 @@ const userCharacter: FastifyPluginAsync = async (fastify, _opts): Promise<void> 
     }
 
     const characterImages = await generateCharacter({
-      color: characterColor,
-      body: characterClothes,
+      color: characterColor as CharacterPersonalization.Color,
+      body: characterClothes as CharacterPersonalization.Body,
     })
 
     if (!cacheExists) {
@@ -79,4 +87,5 @@ const userCharacter: FastifyPluginAsync = async (fastify, _opts): Promise<void> 
   })
 }
 
+export { CharacterPersonalization }
 export default userCharacter
