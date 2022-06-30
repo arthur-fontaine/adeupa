@@ -16,7 +16,7 @@ function Login() {
     const emailRegex = /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/
 
     if (!emailRegex.test(email)) {
-      return 'Email non valide' // change
+      return 'Email non valide'
     }
   }
 
@@ -25,11 +25,11 @@ function Login() {
       /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$/
 
     if (!passwordRegex.test(password)) {
-      return 'Mot de passe non valide' // change
+      return 'Mot de passe non valide'
     }
   }
 
-  const login:  React.MouseEventHandler<HTMLButtonElement> = async (e) => {
+  const login: React.MouseEventHandler<HTMLButtonElement> = async (e) => {
     e.preventDefault()
 
     setEmailError(validateEmail(email))
@@ -42,6 +42,7 @@ function Login() {
     const data = response.data
 
     localStorage.setItem('token', data.token)
+    localStorage.setItem('refreshToken', data.refreshToken)
 
     window.location.href = '/'
   }
