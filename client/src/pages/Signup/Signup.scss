@@ -9,7 +9,7 @@
   align-items: center;
   position: relative;
 
-  @media screen and (max-height: 750px) {
+  @media screen and (min-height: 0px) {
     justify-content: start;
     background-color: $white;
 
