@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import './Home.scss'
 import NavBar from '../../components/NavBar/NavBar'
 import CardHome from '../../components/CardHome/CardHome'
@@ -45,7 +45,7 @@ const Home = () => {
             ease: Linear.easeNone,
           })
           gsap.fromTo(cardContainerRef.current, {
-            rotate: '0'
+            rotate: '0',
           }, {
             duration: 0.5,
             rotate: way === 'next' ? '-90deg' : '90deg',
@@ -111,6 +111,15 @@ const Home = () => {
     }
   }, [cardContainerSwipeEventListener, registeredCardContainerSwipeEventListener, setRegisteredCardContainerSwipeEventListener])
 
+  const currentShopCard = useMemo(() => {
+    if (currentShop) {
+      return <CardHome shopTitle={currentShop.name} shopImage={currentShop.image || ''} shopId={currentShop.id}
+                       shopLikes={currentShop.likes} shopTags={currentShop.tags.map(tag => tag.name)}
+                       shopLiked={currentShop.liked}
+                       shopLocation={[currentShop.location.latitude, currentShop.location.longitude]} />
+    }
+  }, [currentShop])
+
   return (
     <div className='home-page'>
       <div className='home-page__wheel-card-container' ref={wheelCardContainerRef}>
@@ -128,13 +137,7 @@ const Home = () => {
                         shopLocation={[shop.location.latitude, shop.location.longitude]} />
             ))
           }
-          {
-            currentShop &&
-            <CardHome shopTitle={currentShop.name} shopImage={currentShop.image || ''} shopId={currentShop.id}
-                      shopLikes={currentShop.likes} shopTags={currentShop.tags.map(tag => tag.name)}
-                      shopLiked={currentShop.liked}
-                      shopLocation={[currentShop.location.latitude, currentShop.location.longitude]} />
-          }
+          {currentShopCard}
           {
             followingShops(2)?.map(shop => (
               <CardHome key={shop.id} shopTitle={shop.name} shopImage={shop.image || ''} shopId={shop.id}
