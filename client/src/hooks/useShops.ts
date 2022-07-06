@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useState } from 'react'
 import axiosInstance from '../utils/axiosInstance'
 
+const STORED_SHOPS_NUMBER = 5
+
 export interface Shop {
   id: number;
   name: string;
@@ -85,8 +87,8 @@ const useShops = () => {
   }, [currentShop, shops])
 
   useEffect(() => {
-    if (currentShop && shops.length - shops.indexOf(currentShop) < 10) {
-      fetchShops(10 - (shops.length - shops.indexOf(currentShop)), shops.length).then()
+    if (currentShop && shops.length - shops.indexOf(currentShop) < STORED_SHOPS_NUMBER) {
+      fetchShops(STORED_SHOPS_NUMBER - (shops.length - shops.indexOf(currentShop)), shops.length).then()
     }
   }, [currentShop, shops])
 
@@ -97,10 +99,20 @@ const useShops = () => {
   }, [shops])
 
   useEffect(() => {
-    fetchShops(10, 0).then()
+    fetchShops(1, 0).then()
   }, [])
 
-  return { shops, currentShop, nextShop, prevShop, fetchShops, followingShops, precedingShops, setOnBeforeChangeShop, setOnAfterChangeShop }
+  return {
+    shops,
+    currentShop,
+    nextShop,
+    prevShop,
+    fetchShops,
+    followingShops,
+    precedingShops,
+    setOnBeforeChangeShop,
+    setOnAfterChangeShop,
+  }
 }
 
 export default useShops
