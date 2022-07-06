@@ -1,21 +1,22 @@
 import './IconButton.scss'
 
-function ButtonIcon({ social, onClick }: { social: 'twitter' | 'fb', onClick?: () => void }) {
+function ButtonIcon({ social, color, badge, onClick }: { color: string, badge: SVGElement, social: 'twitter' | 'fb', onClick?: () => void }) {
   
   function shareOnTwitter() {
-    const navUrl = 'https://twitter.com/intent/tweet?text=' + 'test'
-    window.open(navUrl, '_blank')
+    const navUrl = 'https://twitter.com/intent/tweet?text=' + 'Regardez ce magnifique badge qu\'il a gagné sur Adeupa !'+badge;
+    window.open(navUrl, '_blank');
   }
   
   function shareOnFacebook() {
-    const navUrl = 'https://www.facebook.com/sharer/sharer.php?u=' + 'test'
-    window.open(navUrl, '_blank')
+    const navUrl = 'https://www.facebook.com/sharer/sharer.php?u=' + 'Regardez ce magnifique badge qu\'il a gagné sur Adeupa !'+badge;
+    window.open(navUrl, '_blank');
   }
   
-  let svg
+  let svg;
+  let style = "background-color="+color;
   if (social === 'fb') {
     svg = (
-      <button onClick={shareOnFacebook}>
+      <button {style} onClick={shareOnFacebook}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
@@ -46,7 +47,7 @@ function ButtonIcon({ social, onClick }: { social: 'twitter' | 'fb', onClick?: (
 
   return (
     <div className="icon-button" onClick={onClick}>
-      <button>{svg}</button>
+      {svg}
     </div>
   )
 }
