@@ -24,15 +24,30 @@ function App() {
   const sessionLikesState = useState<number[]>([])
   const sessionUnlikesState = useState<number[]>([])
 
-  useEffect(() => {
-    getLocation().then(location => {
-      setLocation(location)
-    })
+  const firstFetchLocation = async () => {
+    try {
+      const location = await getLocation({
+        maximumAge: Infinity,
+        timeout: 30000,
+      })
 
-    setInterval(async () => {
-      const location = await getLocation()
       setLocation(location)
-    }, 30000)
+    } catch (error) {
+      console.error(error)
+      await firstFetchLocation()
+    }
+  }
+
+  useEffect(() => {
+    firstFetchLocation().then(() => {
+      setInterval(async () => {
+        const location = await getLocation({
+          maximumAge: 0,
+          timeout: 30000,
+        })
+        setLocation(location)
+      }, 30000)
+    })
   }, [])
 
   return (

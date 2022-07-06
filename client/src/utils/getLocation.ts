@@ -1,10 +1,12 @@
-const getLocation = (): Promise<[number, number]> => {
+const getLocation = (positionOptions?: Partial<PositionOptions>): Promise<[number, number]> => {
   return new Promise((resolve, reject) => {
-
     const options: PositionOptions = {
-      enableHighAccuracy: true,
-      timeout: 15000,
-      maximumAge: 0,
+      ...{
+        enableHighAccuracy: true,
+        timeout: 5000,
+        maximumAge: 0,
+      },
+      ...positionOptions,
     }
 
     const success: PositionCallback = (pos) => {
