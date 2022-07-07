@@ -20,7 +20,7 @@ axiosInstance.interceptors.response.use((response) => response, async (error) =>
     const refreshToken = localStorage.getItem('refreshToken')
 
     if (refreshToken) {
-      localStorage.setItem('token', (await axios.post('/sessions', { refreshToken })).data.token)
+      localStorage.setItem('token', (await axiosInstance.post('/sessions', { refreshToken })).data.token)
       return await axiosInstance.request(error.config)
     } else {
       window.location.href = '/'

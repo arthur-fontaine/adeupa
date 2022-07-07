@@ -1,7 +1,9 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useContext, useEffect, useState } from 'react'
 import axiosInstance from '../utils/axiosInstance'
+import SessionActionsContext from '../contexts/SessionActionsContext'
 
 const STORED_SHOPS_NUMBER = 5
+const MAX_CACHED_SHOPS = Infinity
 
 export interface Shop {
   id: number;
@@ -34,6 +36,8 @@ const useShops = ({ fromShop }: { fromShop?: number } = {}) => {
   const [currentShop, setCurrentShop] = useState<Shop>()
   const [onBeforeChangeShop, setOnBeforeChangeShop] = useState<(t: 'next' | 'prev', currentShop?: Shop, nextShop?: Shop) => Promise<void>>()
   const [onAfterChangeShop, setOnAfterChangeShop] = useState<(t: 'next' | 'prev', currentShop?: Shop, nextShop?: Shop) => Promise<void>>()
+  const sessionActions = useContext(SessionActionsContext)
+  const [cachedShops, setCachedShops] = sessionActions.cachedShops ?? []
 
   const nextShop = useCallback(async () => {
     const nextShop = shops[(currentShop ? shops.indexOf(currentShop) + 1 : 0)]
@@ -72,13 +76,19 @@ const useShops = ({ fromShop }: { fromShop?: number } = {}) => {
     setShops((shops) => [...shops, ...response.data.filter((shop) => !shops.find((s) => s.id === shop.id))])
   }, [setShops])
 
-  const fetchSpecificShop = useCallback(async (id: number) => {
-    const response = await axiosInstance.get<Shop>(`/shops/${id}?include=image,background`)
+  const cacheShop = useCallback(async (...shops: Shop[]) => {
+    if (setCachedShops) {
+      setCachedShops((cachedShops) => {
+        const addedShops = shops.filter((shop) => !cachedShops.find((s) => s.id === shop.id))
 
-    if (!shops.find((shop) => shop.id === response.data.id)) {
-      setShops((shops) => [...shops, response.data])
+        if (cachedShops.length >= MAX_CACHED_SHOPS) {
+          return [...cachedShops.slice(1), ...addedShops]
+        }
+
+        return [...cachedShops, ...addedShops]
+      })
     }
-  }, [setShops])
+  }, [setCachedShops])
 
   const followingShops = useCallback((i: number) => {
     if (currentShop) {
@@ -104,11 +114,18 @@ const useShops = ({ fromShop }: { fromShop?: number } = {}) => {
     if (shops.length > 0 && !currentShop) {
       nextShop().then()
     }
+
+    if (shops.length > 0) {
+      cacheShop(...shops).then()
+    }
   }, [shops])
 
   useEffect(() => {
-    if (fromShop) {
-      fetchSpecificShop(fromShop).then()
+    let foundCachedShop: Shop | undefined
+
+    if (fromShop && cachedShops && (foundCachedShop = cachedShops.find((shop) => shop.id === fromShop))) {
+      setShops((shops) => [...shops, ...cachedShops.filter((shop) => !shops.find((s) => s.id === shop.id))])
+      setCurrentShop(() => foundCachedShop)
     } else {
       fetchShops(1, 0).then()
     }

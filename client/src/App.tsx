@@ -13,6 +13,7 @@ import registerSwipeEvent from './events/drag'
 import Scanner from './pages/Scanner/Scanner'
 import Personalization from './pages/Personalization/Personalization'
 import Shop from './pages/Shop/Shop'
+import { Shop as IShop } from './hooks/useShops'
 import Search from './pages/Search/Search'
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
 
   const sessionLikesState = useState<number[]>([])
   const sessionUnlikesState = useState<number[]>([])
+  const cachedShopsState = useState<IShop[]>([])
 
   const firstFetchLocation = async () => {
     try {
@@ -55,6 +57,7 @@ function App() {
       <SessionActionsContext.Provider value={{
         sessionLikes: sessionLikesState,
         sessionUnlikes: sessionUnlikesState,
+        cachedShops: cachedShopsState,
       }}>
         <div style={{ height: '100%' }}>
           <BrowserRouter>
