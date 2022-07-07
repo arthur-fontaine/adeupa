@@ -29,7 +29,7 @@ export interface Shop {
   background?: string;
 }
 
-const useShops = () => {
+const useShops = ({ fromShop }: { fromShop?: number } = {}) => {
   const [shops, setShops] = useState<Shop[]>([])
   const [currentShop, setCurrentShop] = useState<Shop>()
   const [onBeforeChangeShop, setOnBeforeChangeShop] = useState<(t: 'next' | 'prev', currentShop?: Shop, nextShop?: Shop) => Promise<void>>()
@@ -67,10 +67,18 @@ const useShops = () => {
     }
   }, [shops, currentShop])
 
-  const fetchShops = async (limit: number, offset: number) => {
+  const fetchShops = useCallback(async (limit: number, offset: number) => {
     const response = await axiosInstance.get<Shop[]>(`/shops?include=image,background&limit=${limit}&offset=${offset}`)
-    setShops((shops) => [...shops, ...response.data])
-  }
+    setShops((shops) => [...shops, ...response.data.filter((shop) => !shops.find((s) => s.id === shop.id))])
+  }, [setShops])
+
+  const fetchSpecificShop = useCallback(async (id: number) => {
+    const response = await axiosInstance.get<Shop>(`/shops/${id}?include=image,background`)
+
+    if (!shops.find((shop) => shop.id === response.data.id)) {
+      setShops((shops) => [...shops, response.data])
+    }
+  }, [setShops])
 
   const followingShops = useCallback((i: number) => {
     if (currentShop) {
@@ -99,7 +107,11 @@ const useShops = () => {
   }, [shops])
 
   useEffect(() => {
-    fetchShops(1, 0).then()
+    if (fromShop) {
+      fetchSpecificShop(fromShop).then()
+    } else {
+      fetchShops(1, 0).then()
+    }
   }, [])
 
   return {

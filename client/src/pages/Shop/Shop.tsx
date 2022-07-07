@@ -124,7 +124,7 @@ function Shop() {
 
   return (
     <div className='shop-page'>
-      <div className='shop-page__back' onClick={() => navigate(-1)}>
+      <div className='shop-page__back' onClick={() => navigate(`/home?from_shop=${shopId}`)}>
         <ButtonIcon icon='arrow' />
       </div>
 
