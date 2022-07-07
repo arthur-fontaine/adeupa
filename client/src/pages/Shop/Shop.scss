@@ -3,18 +3,26 @@
 .shop-page {
   background-color: $white;
 
-  &__button {
+  h3 {
+    margin: 20px 0 12px;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  &__back {
     position: absolute;
     top: 24px;
     left: 24px;
   }
 
-  &__image {
+  &__cover {
     width: 100vw;
     height: 250px;
   }
 
-  &__heart {
+  &__like {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -35,95 +43,67 @@
 
   &__data {
     padding: 24px;
+  }
 
-    &--name {
-      color: $purple;
-      margin: 0 0 20px;
-    }
+  &__name {
+    color: $purple;
+    margin: 0 0 20px;
+  }
 
-    &--block-data {
+  &__stats {
+    display: flex;
+    align-items: center;
+    color: $purple;
+
+    & > div {
       display: flex;
       align-items: center;
-      color: $purple;
 
-      &--data {
-        display: flex;
-        align-items: center;
-
-        & svg {
-          margin-right: 4px;
-        }
+      & svg {
+        margin-right: 4px;
       }
 
-      &--data:first-child {
+      &:first-child {
         margin-right: 8px;
       }
     }
+  }
 
-    &--block-type {
+  &__tag {
+    &s {
       display: flex;
       margin-top: 12px;
-
-      &--type {
-        background-color: $clay;
-        padding: 6px 12px;
-        border-radius: 9999px;
-        font-size: 10px;
-        color: $grey;
-      }
-
-      &--type:not(:first-child) {
-        margin-left: 8px;
-      }
-
     }
 
-    &--hourly {
-      margin-top: 20px;
-      display: flex;
-      align-items: center;
+    background-color: $clay;
+    padding: 6px 12px;
+    border-radius: 9999px;
+    font-size: 10px;
+    color: $grey;
 
-      &--title {
-        margin: 0;
-      }
-    }
-
-    &--day {
-      margin-top: 0.5rem;
-
-      &--hourly {
-        display: flex;
-        justify-content: space-between;
-        gap: 7rem;
-
-        p {
-          margin: 0;
-        }
-
-        &:not(:last-child) {
-          margin-bottom: 0.25rem;
-        }
-
-        & > div {
-          flex-grow: 1;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-        }
-      }
-    }
-
-    &--description-title {
-      margin: 0;
-      margin-top: 20px;
-    }
-
-    &--description-text {
-      margin: 12px 0 0;
-      padding-bottom: 104px;
+    &:not(:first-child) {
+      margin-left: 8px;
     }
   }
 
+  &__schedule {
+    &s {
+      margin-top: 0.5rem;
+    }
+
+    display: grid;
+    grid-template-columns: 1.25fr repeat(2, 1fr);
+
+    p {
+      margin: 0;
+    }
+
+    &:not(:last-child) {
+      margin-bottom: 0.25rem;
+    }
+
+    & > div {
+      display: contents;
+    }
+  }
 }
-
-

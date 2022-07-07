@@ -128,21 +128,21 @@ function Shop() {
 
   return (
     <div className='shop-page'>
-      <div className='shop-page__button' onClick={() => navigate(-1)}>
+      <div className='shop-page__back' onClick={() => navigate(-1)}>
         <ButtonIcon icon='arrow' />
       </div>
 
-      <img src={`data:image/png;base64,${image}`} alt='shop' className='shop-page__image' />
+      <img src={`data:image/png;base64,${image}`} alt='shop' className='shop-page__cover' />
 
-      <div className='shop-page__heart' onClick={likeShop}>
+      <div className='shop-page__like' onClick={likeShop}>
         <i className={shopLikedState ? 'ri-heart-fill' : 'ri-heart-line'}></i>
       </div>
 
       <div className='shop-page__data'>
-        <h2 className='shop-page__data--name'>{name}</h2>
+        <h2 className='shop-page__name'>{name}</h2>
 
-        <div className='shop-page__data--block-data'>
-          <div className='shop-page__data--block-data--data'>
+        <div className='shop-page__stats'>
+          <div>
             <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='17' height='17'>
               <path fill='none' d='M0 0h24v24H0z' />
               <path
@@ -152,7 +152,7 @@ function Shop() {
             <span>{distance.toFixed(1)}km</span>
           </div>
 
-          <div className='shop-page__data--block-data--data'>
+          <div>
             <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='17' height='17'>
               <path fill='none' d='M0 0H24V24H0z' />
               <path
@@ -163,45 +163,34 @@ function Shop() {
           </div>
         </div>
 
-        <div className='shop-page__data--block-type'>
-          {tags && tags.map(tag => <Type name={tag.name} key={tag.id} />)}
+        <div className='shop-page__tags'>
+          {tags && tags.map(tag => <div className='shop-page__tag'>{tag.name}</div>)}
         </div>
 
-        <div className='shop-page__data--hourly'>
-          <h3 className='shop-page__data--hourly--title'>Horaires</h3>
-        </div>
-        <div className='shop-page__data--day'>
+        <div className='shop-page__schedules'>
+          <h3>Horaires</h3>
           {schedules && Object.entries(parseSchedules(schedules)).map(([day, schedule], i) => {
             return (
-              <Hourly weekDay={day} startHours={schedule.map(s => s.startHour)} endHours={schedule.map(s => s.endHour)}
-                      key={i} />)
+              <div key={i} className='shop-page__schedule'>
+                <p>{day}</p>
+                <div>
+                  {
+                    schedule.map(s => s.startHour).map((startHour, j) => {
+                      return (
+                        <p key={j}>{startHour} - {schedule.map(s => s.endHour)[j]}</p>
+                      )
+                    })
+                  }
+                </div>
+              </div>
+            )
           })}
         </div>
-        <h3 className='shop-page__data--description-title'>Description</h3>
-        <p className='shop-page__data--description-text'>{description}</p>
-      </div>
-    </div>
-  )
-}
 
-function Type({ name }: { name: string }) {
-  return (
-    <div className='shop-page__data--block-type--type'>{name}</div>
-  )
-}
-
-function Hourly({ weekDay, startHours, endHours }: { weekDay: string; startHours: string[], endHours: string[] }) {
-  return (
-    <div className='shop-page__data--day--hourly'>
-      <p>{weekDay}</p>
-      <div>
-        {
-          startHours.map((startHour, i) => {
-            return (
-              <p key={i}>{startHour} - {endHours[i]}</p>
-            )
-          })
-        }
+        <div className='shop-page__description'>
+          <h3>Description</h3>
+          <p>{description}</p>
+        </div>
       </div>
     </div>
   )
