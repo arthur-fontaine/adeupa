@@ -163,9 +163,9 @@ function Shop() {
           {tags && tags.map(tag => <Tag name={tag.name} key={tag.id} />)}
         </div>
 
-        <div className='shop-page__schedules'>
+        {schedules && schedules.length > 0 && <div className='shop-page__schedules'>
           <h3>Horaires</h3>
-          {schedules && Object.entries(parseSchedules(schedules)).map(([day, schedule], i) => {
+          {Object.entries(parseSchedules(schedules)).map(([day, schedule], i) => {
             return (
               <div key={i} className='shop-page__schedule'>
                 <p>{day}</p>
@@ -181,12 +181,12 @@ function Shop() {
               </div>
             )
           })}
-        </div>
+        </div>}
 
-        <div className='shop-page__description'>
+        {description && description.length > 0 && <div className='shop-page__description'>
           <h3>Description</h3>
           <p>{description}</p>
-        </div>
+        </div>}
       </div>
     </div>
   )
