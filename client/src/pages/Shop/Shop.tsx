@@ -8,6 +8,7 @@ import LocationContext from '../../contexts/LocationContext'
 import { useNavigate } from 'react-router-dom'
 import moment from 'moment'
 import useShopLikes from '../../hooks/useShopLikes'
+import Tag from '../../components/Tag/Tag'
 
 const days = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'] as const
 
@@ -159,7 +160,7 @@ function Shop() {
         </div>
 
         <div className='shop-page__tags'>
-          {tags && tags.map(tag => <div className='shop-page__tag'>{tag.name}</div>)}
+          {tags && tags.map(tag => <Tag name={tag.name} key={tag.id} />)}
         </div>
 
         <div className='shop-page__schedules'>

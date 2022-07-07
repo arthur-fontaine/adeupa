@@ -4,6 +4,7 @@ import LocationContext from '../../contexts/LocationContext'
 import { Link } from 'react-router-dom'
 import calculateDistance from '../../utils/calculateDistance'
 import useShopLikes from '../../hooks/useShopLikes'
+import Tag from '../Tag/Tag'
 
 const CardHome = ({
                     shopImage,
@@ -63,8 +64,8 @@ const CardHome = ({
             </h3>
           </div>
 
-          <div className='home-card__badges'>
-            {shopTags.map(tag => (<div className='home-card__badge' key={tag}>{tag}</div>))}
+          <div className='home-card__tags'>
+            {shopTags.map(tag => (<Tag name={tag} key={tag} />))}
           </div>
         </div>
       </div>
