@@ -1,4 +1,4 @@
-import './style.scss'
+import './Accomplishment.scss'
 
 function Accomplishment({ image, description }: { id: string, image: string, description: string }) {
   return (
