@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './App.scss'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
 
 import Login from './pages/Login/Login'
 import Signup from './pages/Signup/Signup'
@@ -62,7 +62,7 @@ function App() {
         <div style={{ height: '100%' }}>
           <BrowserRouter>
             <Routes>
-              <Route path='/' element={isLoggedIn ? <Home /> : <Signup />} />
+              <Route path='/' element={isLoggedIn ? <div style={{ pointerEvents: 'none' }} /> : <Signup />} />
 
               <Route path='/login' element={<Login />} />
               <Route path='/signup' element={<Signup />} />
@@ -73,12 +73,27 @@ function App() {
               <Route path='/shops/:shopId' element={<Shop />} />
 
               {/*<Route path="/quests" element={<Quests />} />*/}
-              <Route path='*' element={<Home />} />
+              <Route path='*' element={<div style={{ pointerEvents: 'none' }} />} />
             </Routes>
+            <BackgroundRoute>{isLoggedIn && <Home />}</BackgroundRoute>
           </BrowserRouter>
         </div>
       </SessionActionsContext.Provider>
     </LocationContext.Provider>
+  )
+}
+
+function BackgroundRoute({ children }: { children: React.ReactNode }) {
+  const location = useLocation()
+
+  return (
+    <div style={{
+      height: '100%',
+      position: 'relative',
+      display: ['/', '/home'].includes(location.pathname) ? 'block' : 'none',
+    }}>
+      {children}
+    </div>
   )
 }
 
