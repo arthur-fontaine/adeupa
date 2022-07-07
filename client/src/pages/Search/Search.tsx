@@ -2,7 +2,7 @@ import './Search.scss'
 import CardSearch from '../../components/CardSearch/CardSearch'
 import NavBar from '../../components/NavBar/NavBar'
 import axiosInstance from '../../utils/axiosInstance'
-import React, { ReactElement, useDeferredValue, useEffect, useMemo, useState } from 'react'
+import React, { ReactElement, useDeferredValue, useMemo, useState } from 'react'
 
 function Search() {
   const initialValues = {
@@ -54,11 +54,13 @@ function Search() {
           </div>
         </div>
 
-        {query.length > 0 && <h2 className='search-page__title'>Recherche récentes</h2>}
+        {query.length > 0 && results.length > 0 && <h2 className='search-page__title'>Résultats</h2>}
 
         {query.length > 0 && <div className='search-page__results'>
           {results}
         </div>}
+
+        {query.length > 0 && results.length === 0 && <h2 className='search-page__title'>Aucun résultat</h2>}
       </div>
 
       <NavBar />
