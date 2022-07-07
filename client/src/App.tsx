@@ -8,6 +8,7 @@ import User from './pages/User/User'
 import Home from './pages/Home/Home'
 import LocationContext, { LocationContextType } from './contexts/LocationContext'
 import SessionActionsContext from './contexts/SessionActionsContext'
+import ElementsLoadedContext from './contexts/ElementsLoadedContext'
 import getLocation from './utils/getLocation'
 import registerSwipeEvent from './events/drag'
 import Scanner from './pages/Scanner/Scanner'
@@ -15,6 +16,7 @@ import Personalization from './pages/Personalization/Personalization'
 import Shop from './pages/Shop/Shop'
 import { Shop as IShop } from './hooks/useShops'
 import Search from './pages/Search/Search'
+import Loading from './pages/Loading/Loading'
 
 function App() {
   registerSwipeEvent()
@@ -25,6 +27,9 @@ function App() {
   const sessionLikesState = useState<number[]>([])
   const sessionUnlikesState = useState<number[]>([])
   const cachedShopsState = useState<IShop[]>([])
+
+  const firstShopLoadedState = useState(false)
+  const characterLoadedState = useState(false)
 
   const firstFetchLocation = async () => {
     try {
@@ -53,33 +58,37 @@ function App() {
   }, [])
 
   return (
-    <LocationContext.Provider value={location}>
-      <SessionActionsContext.Provider value={{
-        sessionLikes: sessionLikesState,
-        sessionUnlikes: sessionUnlikesState,
-        cachedShops: cachedShopsState,
-      }}>
-        <div style={{ height: '100%' }}>
-          <BrowserRouter>
-            <Routes>
-              <Route path='/' element={isLoggedIn ? <div style={{ pointerEvents: 'none' }} /> : <Signup />} />
+    <ElementsLoadedContext.Provider value={{ firstShop: firstShopLoadedState, character: characterLoadedState }}>
+      <LocationContext.Provider value={location}>
+        <SessionActionsContext.Provider value={{
+          sessionLikes: sessionLikesState,
+          sessionUnlikes: sessionUnlikesState,
+          cachedShops: cachedShopsState,
+        }}>
+          <div style={{ height: '100%' }}>
+            <Loading />
 
-              <Route path='/login' element={<Login />} />
-              <Route path='/signup' element={<Signup />} />
-              <Route path='/scanner' element={<Scanner />} />
-              <Route path='/search' element={<Search />} />
-              <Route path='/user' element={<User />} />
-              <Route path='/personalization' element={<Personalization />} />
-              <Route path='/shops/:shopId' element={<Shop />} />
+            <BrowserRouter>
+              <Routes>
+                <Route path='/' element={isLoggedIn ? <div style={{ pointerEvents: 'none' }} /> : <Signup />} />
 
-              {/*<Route path="/quests" element={<Quests />} />*/}
-              <Route path='*' element={<div style={{ pointerEvents: 'none' }} />} />
-            </Routes>
-            <BackgroundRoute>{isLoggedIn && <Home />}</BackgroundRoute>
-          </BrowserRouter>
-        </div>
-      </SessionActionsContext.Provider>
-    </LocationContext.Provider>
+                <Route path='/login' element={<Login />} />
+                <Route path='/signup' element={<Signup />} />
+                <Route path='/scanner' element={<Scanner />} />
+                <Route path='/search' element={<Search />} />
+                <Route path='/user' element={<User />} />
+                <Route path='/personalization' element={<Personalization />} />
+                <Route path='/shops/:shopId' element={<Shop />} />
+
+                {/*<Route path="/quests" element={<Quests />} />*/}
+                <Route path='*' element={<div style={{ pointerEvents: 'none' }} />} />
+              </Routes>
+              <BackgroundRoute>{isLoggedIn && <Home />}</BackgroundRoute>
+            </BrowserRouter>
+          </div>
+        </SessionActionsContext.Provider>
+      </LocationContext.Provider>
+    </ElementsLoadedContext.Provider>
   )
 }
 

@@ -1,6 +1,7 @@
 import { useCallback, useContext, useEffect, useState } from 'react'
 import axiosInstance from '../utils/axiosInstance'
 import SessionActionsContext from '../contexts/SessionActionsContext'
+import ElementsLoadedContext from '../contexts/ElementsLoadedContext'
 
 const STORED_SHOPS_NUMBER = 5
 const MAX_CACHED_SHOPS = Infinity
@@ -32,6 +33,8 @@ export interface Shop {
 }
 
 const useShops = ({ fromShop }: { fromShop?: number } = {}) => {
+  const elementsLoaded = useContext(ElementsLoadedContext)
+
   const [shops, setShops] = useState<Shop[]>([])
   const [currentShop, setCurrentShop] = useState<Shop>()
   const [onBeforeChangeShop, setOnBeforeChangeShop] = useState<(t: 'next' | 'prev', currentShop?: Shop, nextShop?: Shop) => Promise<void>>()
@@ -112,7 +115,7 @@ const useShops = ({ fromShop }: { fromShop?: number } = {}) => {
 
   useEffect(() => {
     if (shops.length > 0 && !currentShop) {
-      nextShop().then()
+      nextShop().then(() => elementsLoaded.firstShop?.[1](true))
     }
 
     if (shops.length > 0) {

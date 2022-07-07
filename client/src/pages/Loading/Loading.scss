@@ -1,0 +1,88 @@
+@import "./../../styles/global";
+
+@keyframes scaleUp {
+  0% {
+    transform: scale(1);
+  }
+
+  100% {
+    transform: scale(100);
+  }
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes ring {
+  0% {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+
+  100% {
+    transform: scale(1.35);
+    opacity: 0;
+  }
+}
+
+.loading-page {
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
+  z-index: 99999;
+  overflow: hidden;
+
+  background: $white;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+
+  svg.loader {
+    transform: scale(1);
+    transform-origin: 51.4% 40%;
+    width: 40vw;
+    position: relative;
+
+    & > * {
+      fill: $pink;
+    }
+
+    &--ring {
+      position: absolute;
+      animation: ring 2.5s ease-in infinite;
+
+      & > * {
+        fill: none;
+        stroke: $pink;
+      }
+    }
+  }
+
+  &.disappearing {
+    $animation-curve: cubic-bezier(1, 0, 1, 1);
+
+    animation: fadeOut 0.5s $animation-curve forwards;
+    animation-delay: 0.25s;
+    pointer-events: none;
+
+    svg.loader {
+      animation: scaleUp 0.5s $animation-curve forwards;
+
+      &--ring {
+        animation: none;
+        opacity: 0;
+        transition: 0.25s;
+      }
+    }
+  }
+}

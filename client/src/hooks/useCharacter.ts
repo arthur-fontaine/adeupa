@@ -1,7 +1,10 @@
-import { createElement, ReactElement, useEffect, useState } from 'react'
+import { createElement, ReactElement, useContext, useEffect, useState } from 'react'
 import axiosInstance from '../utils/axiosInstance'
+import ElementsLoadedContext from '../contexts/ElementsLoadedContext'
 
 const useCharacter = ({ playing: playingState }: { playing: boolean } = { playing: false }) => {
+  const elementsLoaded = useContext(ElementsLoadedContext)
+
   const [characterSprites, setCharacterSprites] = useState<ReactElement<{ src: string }>[]>([])
   const [currentCharacterSprite, setCurrentCharacterSprite] = useState<ReactElement<{ src: string }>>()
   const [playing, setPlaying] = useState(playingState)
@@ -42,7 +45,7 @@ const useCharacter = ({ playing: playingState }: { playing: boolean } = { playin
   }, [playing, animationSpeed, characterSprites, ready, currentCharacterSprite])
 
   useEffect(() => {
-    fetchCharacterSprites().then()
+    fetchCharacterSprites().then(() => elementsLoaded.character?.[1](true))
   }, [])
 
   useEffect(() => {
