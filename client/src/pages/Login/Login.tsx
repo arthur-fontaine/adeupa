@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import './Login.scss'
 import TextButton from '../../components/TextButton/TextButton'
 import TextInput from '../../components/TextInput/TextInput'
-import character from '../../assets/images/Character.svg'
+import character from '../../assets/images/character.svg'
 import axiosInstance from '../../utils/axiosInstance'
 
 function Login() {

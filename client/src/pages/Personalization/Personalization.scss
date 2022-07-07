@@ -76,15 +76,15 @@
         background: $grey;
 
         &#color-button {
-          -webkit-mask-image: url(../../assets/images/color.svg);
+          -webkit-mask-image: url(../../assets/images/custom-character-color.svg);
         }
 
         &#clothes-button {
-          -webkit-mask-image: url(../../assets/images/clothes.svg);
+          -webkit-mask-image: url(../../assets/images/custom-character-clothes.svg);
         }
 
         &#district-button {
-          -webkit-mask-image: url(../../assets/images/background.svg);
+          -webkit-mask-image: url(../../assets/images/custom-landscape.svg);
         }
 
         &[data-selected="true"] {

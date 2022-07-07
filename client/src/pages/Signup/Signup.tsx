@@ -3,9 +3,8 @@ import './Signup.scss'
 import '../../App.scss'
 import TextButton from '../../components/TextButton/TextButton'
 import TextInput from '../../components/TextInput/TextInput'
-import character from '../../assets/images/Character.svg'
+import character from '../../assets/images/character.svg'
 import axiosInstance from '../../utils/axiosInstance'
-// import background from '../../assets/images/Background.png'
 
 function Signup() {
   const initialValues = {

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import NavBar from '../../components/NavBar/NavBar'
 import TextInput from '../../components/TextInput/TextInput'
 import IconButton from '../../components/IconButton/IconButton'
-import character from '../../assets/images/Character.svg'
+import character from '../../assets/images/character.svg'
 import './User.scss'
 import axiosInstance from '../../utils/axiosInstance'
 
