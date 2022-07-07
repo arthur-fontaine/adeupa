@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext, useCallback } from 'react'
 import ButtonIcon from '../../components/IconButton/IconButton'
-import { useParams } from 'react-router-dom'
+import { useParams, useSearchParams } from 'react-router-dom'
 import './Shop.scss'
 import axiosInstance from '../../utils/axiosInstance'
 import calculateDistance from '../../utils/calculateDistance'
@@ -46,6 +46,8 @@ function Shop() {
   let { shopId: shopIdParam } = useParams()
   const shopId = Number(shopIdParam)
 
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const initialValues = {
     name: '',
     image: '',
@@ -68,6 +70,13 @@ function Shop() {
   const [schedules, setSchedules] = useState(initialValues.schedules)
   const [shopLocation, setShopLocation] = useState(initialValues.shopLocation)
   const [address, setAddress] = useState(initialValues.address)
+  const [fromHome] = useState(searchParams.get('from') === 'home')
+
+  useEffect(() => {
+    if (searchParams.has('from')) {
+      setSearchParams({})
+    }
+  }, []);
 
   const navigate = useNavigate()
   const location = useContext(LocationContext)
@@ -124,7 +133,13 @@ function Shop() {
 
   return (
     <div className='shop-page'>
-      <div className='shop-page__back' onClick={() => navigate(`/home?from_shop=${shopId}`)}>
+      <div className='shop-page__back' onClick={() => {
+        if (fromHome) {
+          navigate(`/home?from_shop=${shopId}`)
+        } else {
+          navigate(-1)
+        }
+      }}>
         <ButtonIcon icon='arrow' />
       </div>
 
