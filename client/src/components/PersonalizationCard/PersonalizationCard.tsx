@@ -17,7 +17,7 @@ interface GetItemsResponse {
 function PersonalizationCard<T extends TabName>({ tab, getLandscape }: { tab: T, getLandscape?: () => Promise<void> }) {
   const [items, setItems] = useState<GetItemsResponse['items']>()
   const [itemLoading, setItemLoading] = useState<GetItemsResponse['items'][number]['id'] | undefined>()
-  const { fetchCharacterSprites } = useContext(CharacterContext)
+  const character  = useContext(CharacterContext)
 
   const getColor = async () => {
     return setItems((await axiosInstance.get<GetItemsResponse>('/users/me/character/items/color')).data.items)
@@ -51,7 +51,7 @@ function PersonalizationCard<T extends TabName>({ tab, getLandscape }: { tab: T,
   const selectItem = useCallback(async (id: string) => {
     setItemLoading(() => id)
     await axiosInstance.put(`/users/me/character/items/${tab}?itemId=${id}`)
-    Promise.all([getItems(), fetchCharacterSprites()]).then(() => setItemLoading(() => undefined))
+    Promise.all([getItems(), character?.fetchCharacterSprites()]).then(() => setItemLoading(() => undefined))
 
     switch (tab) {
       case 'color':

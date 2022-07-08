@@ -13,6 +13,8 @@ const useCharacter = ({ playing: playingState }: { playing: boolean } = { playin
   const [ready, setReady] = useState(false)
   const [walkDirection, setWalkDirection] = useState<'left' | 'right'>()
 
+  const loggedIn = localStorage.getItem('token') !== null
+
   const nextCharacterSprite = () => {
     const nextCharacterSprite = characterSprites[(currentCharacterSprite ? characterSprites.indexOf(currentCharacterSprite) + 1 : 0)]
     setCurrentCharacterSprite(nextCharacterSprite)
@@ -45,8 +47,10 @@ const useCharacter = ({ playing: playingState }: { playing: boolean } = { playin
   }, [playing, animationSpeed, characterSprites, ready, currentCharacterSprite])
 
   useEffect(() => {
-    fetchCharacterSprites().then(() => elementsLoaded.character?.[1](true))
-  }, [])
+    if (loggedIn) {
+      fetchCharacterSprites().then(() => elementsLoaded.character?.[1](true))
+    }
+  }, [loggedIn])
 
   useEffect(() => {
     if (characterSprites.length > 0 && !currentCharacterSprite) {
@@ -60,6 +64,10 @@ const useCharacter = ({ playing: playingState }: { playing: boolean } = { playin
       setCurrentCharacterSprite(characterSprites[0])
     }
   }, [characterSprites])
+
+  if (!loggedIn) {
+    return null
+  }
 
   return { currentCharacterSprite, playing, setPlaying, animationSpeed, setAnimationSpeed, nextCharacterSprite, prevCharacterSprite, walkDirection, setWalkDirection, fetchCharacterSprites, characterSprites }
 }

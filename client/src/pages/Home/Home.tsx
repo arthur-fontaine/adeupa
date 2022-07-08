@@ -31,7 +31,7 @@ const Home = () => {
     setOnBeforeChangeShop(() => (way: 'next' | 'prev', currentShop: Shop | undefined, newShop: Shop | undefined) => {
       return new Promise<void>(resolve => {
         if (backgroundRef.current && currentShop && newShop) {
-          character.setWalkDirection(way === 'next' ? 'left' : 'right')
+          character?.setWalkDirection(way === 'next' ? 'left' : 'right')
 
           gsap.fromTo(backgroundRef.current, {
             translateX: way === 'next' ? '0' : '-100vw',
@@ -46,9 +46,9 @@ const Home = () => {
             duration: 0.5,
             rotate: way === 'next' ? '-90deg' : '90deg',
           })
-          character.setPlaying(true)
+          character?.setPlaying(true)
           setTimeout(() => {
-            character.setPlaying(false)
+            character?.setPlaying(false)
             resolve()
           }, SWIPE_ANIMATION_DURATION * 1000)
         } else {

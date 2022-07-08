@@ -21,7 +21,7 @@ function User() {
   const [birthdate, setBirthdate] = useState(initialValues.birthdate)
   const [location, setLocation] = useState(initialValues.location)
 
-  const { currentCharacterSprite } = useContext(CharacterContext)
+  const character = useContext(CharacterContext)
 
   const getUserInfo = async () => {
     const response = await axiosInstance.get<{
@@ -56,7 +56,7 @@ function User() {
     <div className="user-page">
       <header className="user-page__header">
         <div className="user-page__profile-picture">
-          {currentCharacterSprite}
+          {character && character?.currentCharacterSprite}
         </div>
         <h2
           contentEditable={true}

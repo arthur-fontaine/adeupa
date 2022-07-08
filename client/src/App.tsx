@@ -51,7 +51,8 @@ function AppContent() {
       setLocation(location)
     } catch (error) {
       console.error(error)
-      await firstFetchLocation()
+      throw error
+      // await firstFetchLocation()
     }
   }
 
@@ -76,7 +77,7 @@ function AppContent() {
           cachedShops: cachedShopsState,
         }}>
           <div style={{ height: '100%' }}>
-            <Loading />
+            { isLoggedIn && <Loading /> }
 
             <BrowserRouter>
               <Routes>

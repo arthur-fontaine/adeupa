@@ -1,5 +1,5 @@
 import './style.scss'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useRef, useState } from 'react'
 import QrScanner from 'qr-scanner'
 import IconButton from './../../components/IconButton/IconButton'
 import axiosInstance from './../../utils/axiosInstance'
@@ -45,10 +45,6 @@ function Scanner() {
       }, 5000)
     }
   }, [accomplishment, setAccomplishment, accomplishmentCard])
-
-  useEffect(() => {
-    console.log(accomplishmentCard)
-  }, [accomplishmentCard])
 
   const onRefChange = useCallback((node: HTMLVideoElement) => {
     if (node === null) {
