@@ -74,7 +74,7 @@ const CardHome = ({
         <div className='home-card__footer-background'></div>
 
         <div className='home-card__button-container'>
-          <Link to={`/shops/${shopId}?from=home`}>
+          <Link to={`/shops/${shopId}`}>
             <div className='home-card__button'>Voir plus</div>
           </Link>
         </div>

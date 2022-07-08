@@ -1,7 +1,9 @@
 import axios from 'axios'
 
+export const API_URL = 'http://localhost:3001'
+
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:3001',
+  baseURL: API_URL,
   transformRequest: [(data, headers) => {
     if (localStorage.getItem('token')) {
       if (headers) {

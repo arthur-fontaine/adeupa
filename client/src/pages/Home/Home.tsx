@@ -6,13 +6,11 @@ import useShops, { Shop } from '../../hooks/useShops'
 import Character from '../../components/Character/Character'
 import gsap, { Linear } from 'gsap'
 import { SwipeEvent } from '../../events/drag'
-import { useSearchParams } from 'react-router-dom'
 import CharacterContext from '../../contexts/CharacterContext'
 
 const SWIPE_ANIMATION_DURATION = 2.4
 
 const Home = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
   const {
     currentShop,
     nextShop,
@@ -21,18 +19,13 @@ const Home = () => {
     precedingShops,
     setOnBeforeChangeShop,
     setOnAfterChangeShop,
-  } = useShops({ fromShop: searchParams.has('from_shop') ? parseInt(searchParams.get('from_shop')!) : undefined });
+  } = useShops();
   const [cardContainerSwipeEventListener, setCardContainerSwipeEventListener] = useState<(e: Event) => void>()
   const [registeredCardContainerSwipeEventListener, setRegisteredCardContainerSwipeEventListener] = useState<(e: Event) => void>()
   const character = useContext(CharacterContext)
 
   const backgroundRef = useRef<HTMLDivElement>(null)
   const cardContainerRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    character.setAnimationSpeed(48)
-    setSearchParams({})
-  }, [])
 
   useEffect(() => {
     setOnBeforeChangeShop(() => (way: 'next' | 'prev', currentShop: Shop | undefined, newShop: Shop | undefined) => {

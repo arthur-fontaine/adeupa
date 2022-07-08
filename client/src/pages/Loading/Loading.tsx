@@ -5,12 +5,10 @@ import { useCallback, useContext } from 'react'
 
 function Loading() {
   const elementsLoadedContext = useContext(ElementsLoadedContext)
-  console.log('rendering Loading')
 
   const loadingPageRef = useCallback((node: HTMLDivElement) => {
     if (node) {
       if (Object.values(elementsLoadedContext).map(v => v[0]).every(Boolean)) {
-        console.log('starting transition')
         setTimeout(() => {node.classList.add('disappearing')}, 250)
       }
     }

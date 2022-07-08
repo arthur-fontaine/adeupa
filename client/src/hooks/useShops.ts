@@ -1,10 +1,10 @@
 import { useCallback, useContext, useEffect, useState } from 'react'
-import axiosInstance from '../utils/axiosInstance'
-import SessionActionsContext from '../contexts/SessionActionsContext'
+import axiosInstance, { API_URL } from '../utils/axiosInstance'
 import ElementsLoadedContext from '../contexts/ElementsLoadedContext'
 
 const STORED_SHOPS_NUMBER = 5
-const MAX_CACHED_SHOPS = Infinity
+const MAX_CACHED_SHOPS = 20
+const CACHE_NAME = 'v2'
 
 export interface Shop {
   id: number;
@@ -32,15 +32,13 @@ export interface Shop {
   background?: string;
 }
 
-const useShops = ({ fromShop }: { fromShop?: number } = {}) => {
+const useShops = () => {
   const elementsLoaded = useContext(ElementsLoadedContext)
 
   const [shops, setShops] = useState<Shop[]>([])
   const [currentShop, setCurrentShop] = useState<Shop>()
   const [onBeforeChangeShop, setOnBeforeChangeShop] = useState<(t: 'next' | 'prev', currentShop?: Shop, nextShop?: Shop) => Promise<void>>()
   const [onAfterChangeShop, setOnAfterChangeShop] = useState<(t: 'next' | 'prev', currentShop?: Shop, nextShop?: Shop) => Promise<void>>()
-  const sessionActions = useContext(SessionActionsContext)
-  const [cachedShops, setCachedShops] = sessionActions.cachedShops ?? []
 
   const nextShop = useCallback(async () => {
     const nextShop = shops[(currentShop ? shops.indexOf(currentShop) + 1 : 0)]
@@ -79,19 +77,26 @@ const useShops = ({ fromShop }: { fromShop?: number } = {}) => {
     setShops((shops) => [...shops, ...response.data.filter((shop) => !shops.find((s) => s.id === shop.id))])
   }, [setShops])
 
-  const cacheShop = useCallback(async (...shops: Shop[]) => {
-    if (setCachedShops) {
-      setCachedShops((cachedShops) => {
-        const addedShops = shops.filter((shop) => !cachedShops.find((s) => s.id === shop.id))
+  const cacheShop = async (...shops: Shop[]) => {
+    const cache = await caches.open(CACHE_NAME)
+    const cachedShops = await cache.match('/shops')
 
-        if (cachedShops.length >= MAX_CACHED_SHOPS) {
-          return [...cachedShops.slice(1), ...addedShops]
-        }
+    let newCachedShops: Shop[]
 
-        return [...cachedShops, ...addedShops]
-      })
+    if (cachedShops) {
+      const cachedShopsData = await cachedShops.json() as Shop[]
+      const addedShops = shops.filter((shop) => !cachedShopsData.find((s) => s.id === shop.id))
+      newCachedShops = [...cachedShopsData, ...addedShops]
+
+      if (newCachedShops.length > MAX_CACHED_SHOPS) {
+        newCachedShops = newCachedShops.slice(newCachedShops.length - MAX_CACHED_SHOPS)
+      }
+    } else {
+      newCachedShops = shops
     }
-  }, [setCachedShops])
+
+    await cache.put(`${API_URL}/shops`, new Response(JSON.stringify(newCachedShops), { headers: { 'Content-Type': 'application/json' } }))
+  }
 
   const followingShops = useCallback((i: number) => {
     if (currentShop) {
@@ -118,20 +123,13 @@ const useShops = ({ fromShop }: { fromShop?: number } = {}) => {
       nextShop().then(() => elementsLoaded.firstShop?.[1](true))
     }
 
-    if (shops.length > 0) {
+    if (shops.length > 0 && navigator.onLine) {
       cacheShop(...shops).then()
     }
   }, [shops])
 
   useEffect(() => {
-    let foundCachedShop: Shop | undefined
-
-    if (fromShop && cachedShops && (foundCachedShop = cachedShops.find((shop) => shop.id === fromShop))) {
-      setShops((shops) => [...shops, ...cachedShops.filter((shop) => !shops.find((s) => s.id === shop.id))])
-      setCurrentShop(() => foundCachedShop)
-    } else {
-      fetchShops(1, 0).then()
-    }
+    fetchShops(1, 0).then()
   }, [])
 
   return {
