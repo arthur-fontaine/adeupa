@@ -16,6 +16,7 @@ interface GetItemsResponse {
 
 function PersonalizationCard<T extends TabName>({ tab, getLandscape }: { tab: T, getLandscape?: () => Promise<void> }) {
   const [items, setItems] = useState<GetItemsResponse['items']>()
+  const [itemLoading, setItemLoading] = useState<GetItemsResponse['items'][number]['id'] | undefined>()
   const { fetchCharacterSprites } = useContext(CharacterContext)
 
   const getColor = async () => {
@@ -48,9 +49,9 @@ function PersonalizationCard<T extends TabName>({ tab, getLandscape }: { tab: T,
   }, [tab])
 
   const selectItem = useCallback(async (id: string) => {
+    setItemLoading(() => id)
     await axiosInstance.put(`/users/me/character/items/${tab}?itemId=${id}`)
-    fetchCharacterSprites().then()
-    getItems().then()
+    Promise.all([getItems(), fetchCharacterSprites()]).then(() => setItemLoading(() => undefined))
 
     switch (tab) {
       case 'color':
@@ -59,7 +60,7 @@ function PersonalizationCard<T extends TabName>({ tab, getLandscape }: { tab: T,
       case 'district':
         getLandscape && await getLandscape()
     }
-  }, [tab, getItems, getLandscape])
+  }, [tab, getItems, getLandscape, setItemLoading])
 
   return (
     <div className='personalization-card'>
@@ -68,15 +69,23 @@ function PersonalizationCard<T extends TabName>({ tab, getLandscape }: { tab: T,
           if (tab === 'color') {
             return <li className='personalization-card__item personalization-card__item--color' data-color={item.value}
                        key={item.value} style={{ backgroundColor: item.value }} data-unlocked={item.unlocked}
-                       data-selected={item.selected} onClick={item.unlocked ? () => selectItem(item.id) : () => {}}></li>
+                       data-selected={itemLoading === undefined && item.selected} data-loading={item.id === itemLoading}
+                       onClick={item.unlocked ? () => selectItem(item.id) : () => {
+                       }}></li>
           } else if (tab === 'clothes') {
             return <li className='personalization-card__item personalization-card__item--clothes'
-                       data-clothes={item.value} key={item.value} style={{ backgroundColor: item.value }} data-unlocked={item.unlocked}
-                       data-selected={item.selected} onClick={item.unlocked ? () => selectItem(item.id) : () => {}}></li>
+                       data-clothes={item.value} key={item.value} style={{ backgroundColor: item.value }}
+                       data-unlocked={item.unlocked} data-loading={item.id === itemLoading}
+                       data-selected={itemLoading === undefined && item.selected}
+                       onClick={item.unlocked ? () => selectItem(item.id) : () => {
+                       }}></li>
           } else if (tab === 'district') {
             return <li className='personalization-card__item personalization-card__item--district'
-                       data-district={item.value} key={item.value} style={{ backgroundColor: item.value }} data-unlocked={item.unlocked}
-                       data-selected={item.selected} onClick={item.unlocked ? () => selectItem(item.id) : () => {}}></li>
+                       data-district={item.value} key={item.value} style={{ backgroundColor: item.value }}
+                       data-unlocked={item.unlocked} data-loading={item.id === itemLoading}
+                       data-selected={itemLoading === undefined && item.selected}
+                       onClick={item.unlocked ? () => selectItem(item.id) : () => {
+                       }}></li>
           }
         })}
       </ul>
