@@ -10,7 +10,7 @@ const users: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
       body: Joi.object({
         name: Joi.string().required(),
         email: Joi.string().email().required(),
-        password: Joi.string().min(8).regex(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?\d)(?=.*?[#?!@$ %^&*-]).{8,}$/).required(),
+        password: Joi.string().min(8).regex(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?\d)(?=.*?).{8,}$/).required(),
         birthdate: Joi.string().isoDate().required(),
         location: Joi.string().required(),
       }),

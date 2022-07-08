@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import './Signup.scss'
 import '../../App.scss'
 import TextButton from '../../components/TextButton/TextButton'
@@ -34,14 +34,14 @@ function Signup() {
 
   const validatePassword = (password: string) => {
     const passwordRegex =
-      /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$/
+      /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?\d)(?=.*?).{8,}$/
 
     if (!passwordRegex.test(password)) {
-      return 'Mot de passe non valide' // change
+      return 'Le mot de passe doit contenir au moins 8 caractères dont une lettre minuscule, une lettre majuscule et un chiffre'
     }
   }
 
-  const signup: React.MouseEventHandler<HTMLButtonElement> = async (e) => {
+  const signup: React.MouseEventHandler<HTMLButtonElement> = useCallback(async (e) => {
     e.preventDefault()
 
     setEmailError(validateEmail(email))
@@ -64,7 +64,7 @@ function Signup() {
     localStorage.setItem('token', data.token)
 
     window.location.href = '/'
-  }
+  }, [email, password, birthdate, location, name])
 
   const login = () => {
     window.location.href = '/login'
@@ -93,7 +93,7 @@ function Signup() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
-            {emailError ? <p>{emailError}</p> : null}
+            {emailError ? <p className='signup-page__error'>{emailError}</p> : null}
             <TextInput
               name='password'
               type='password'
@@ -101,7 +101,7 @@ function Signup() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            {passwordError ? <p>{passwordError}</p> : null}
+            {passwordError ? <p className='signup-page__error'>{passwordError}</p> : null}
             <TextInput
               name='confirmpassword'
               type='password'
@@ -126,10 +126,12 @@ function Signup() {
             />
             <TextInput
               name='birthdate'
-              type='date'
+              type='text'
               placeholder='Anniversaire'
               value={birthdate}
               onChange={(e) => setBirthdate(e.target.value)}
+              onFocus={(e) => e.target.type = 'date'}
+              onBlur={(e) => e.target.value === '' ? e.target.type = 'text' : null}
             />
           </div>
 

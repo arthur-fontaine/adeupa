@@ -52,6 +52,10 @@
     flex-shrink: 0;
   }
 
+  &__error {
+    margin: -12px 0 24px;
+  }
+
   &__login {
     @include body;
     margin-bottom: 0;
