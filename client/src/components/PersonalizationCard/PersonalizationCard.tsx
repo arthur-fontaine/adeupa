@@ -1,7 +1,8 @@
 import { TabName } from '../../pages/Personalization/Personalization'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 import axiosInstance from '../../utils/axiosInstance'
 import './PersonalizationCard.scss'
+import CharacterContext from '../../contexts/CharacterContext'
 
 interface GetItemsResponse {
   items: [{
@@ -13,8 +14,9 @@ interface GetItemsResponse {
   }]
 }
 
-function PersonalizationCard<T extends TabName>({ tab, getLandscape, getCharacter }: { tab: T, getLandscape?: () => Promise<void>, getCharacter?: () => Promise<void> }) {
+function PersonalizationCard<T extends TabName>({ tab, getLandscape }: { tab: T, getLandscape?: () => Promise<void> }) {
   const [items, setItems] = useState<GetItemsResponse['items']>()
+  const { fetchCharacterSprites } = useContext(CharacterContext)
 
   const getColor = async () => {
     return setItems((await axiosInstance.get<GetItemsResponse>('/users/me/character/items/color')).data.items)
@@ -47,17 +49,17 @@ function PersonalizationCard<T extends TabName>({ tab, getLandscape, getCharacte
 
   const selectItem = useCallback(async (id: string) => {
     await axiosInstance.put(`/users/me/character/items/${tab}?itemId=${id}`)
+    fetchCharacterSprites().then()
     getItems().then()
 
     switch (tab) {
       case 'color':
       case 'clothes':
-        getCharacter && await getCharacter()
         break
       case 'district':
         getLandscape && await getLandscape()
     }
-  }, [tab, getItems, getCharacter, getLandscape])
+  }, [tab, getItems, getLandscape])
 
   return (
     <div className='personalization-card'>

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import './Home.scss'
 import NavBar from '../../components/NavBar/NavBar'
 import CardHome from '../../components/CardHome/CardHome'
@@ -6,8 +6,8 @@ import useShops, { Shop } from '../../hooks/useShops'
 import Character from '../../components/Character/Character'
 import gsap, { Linear } from 'gsap'
 import { SwipeEvent } from '../../events/drag'
-import useCharacter from '../../hooks/useCharacter'
 import { useSearchParams } from 'react-router-dom'
+import CharacterContext from '../../contexts/CharacterContext'
 
 const SWIPE_ANIMATION_DURATION = 2.4
 
@@ -24,7 +24,7 @@ const Home = () => {
   } = useShops({ fromShop: searchParams.has('from_shop') ? parseInt(searchParams.get('from_shop')!) : undefined });
   const [cardContainerSwipeEventListener, setCardContainerSwipeEventListener] = useState<(e: Event) => void>()
   const [registeredCardContainerSwipeEventListener, setRegisteredCardContainerSwipeEventListener] = useState<(e: Event) => void>()
-  const character = useCharacter({ playing: false })
+  const character = useContext(CharacterContext)
 
   const backgroundRef = useRef<HTMLDivElement>(null)
   const cardContainerRef = useRef<HTMLDivElement>(null)

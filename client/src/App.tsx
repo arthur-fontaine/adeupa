@@ -9,6 +9,7 @@ import Home from './pages/Home/Home'
 import LocationContext, { LocationContextType } from './contexts/LocationContext'
 import SessionActionsContext from './contexts/SessionActionsContext'
 import ElementsLoadedContext from './contexts/ElementsLoadedContext'
+import CharacterContext from './contexts/CharacterContext'
 import getLocation from './utils/getLocation'
 import registerSwipeEvent from './events/drag'
 import Scanner from './pages/Scanner/Scanner'
@@ -17,8 +18,18 @@ import Shop from './pages/Shop/Shop'
 import { Shop as IShop } from './hooks/useShops'
 import Search from './pages/Search/Search'
 import Loading from './pages/Loading/Loading'
+import useCharacter from './hooks/useCharacter'
 
 function App() {
+  const firstShopLoadedState = useState(false)
+  const characterLoadedState = useState(false)
+
+  return <ElementsLoadedContext.Provider value={{ firstShop: firstShopLoadedState, character: characterLoadedState }}>
+    <AppContent />
+  </ElementsLoadedContext.Provider>
+}
+
+function AppContent() {
   registerSwipeEvent()
 
   const isLoggedIn = localStorage.getItem('token') !== null
@@ -28,8 +39,7 @@ function App() {
   const sessionUnlikesState = useState<number[]>([])
   const cachedShopsState = useState<IShop[]>([])
 
-  const firstShopLoadedState = useState(false)
-  const characterLoadedState = useState(false)
+  const character = useCharacter({ playing: false })
 
   const firstFetchLocation = async () => {
     try {
@@ -58,7 +68,7 @@ function App() {
   }, [])
 
   return (
-    <ElementsLoadedContext.Provider value={{ firstShop: firstShopLoadedState, character: characterLoadedState }}>
+    <CharacterContext.Provider value={character}>
       <LocationContext.Provider value={location}>
         <SessionActionsContext.Provider value={{
           sessionLikes: sessionLikesState,
@@ -88,7 +98,7 @@ function App() {
           </div>
         </SessionActionsContext.Provider>
       </LocationContext.Provider>
-    </ElementsLoadedContext.Provider>
+    </CharacterContext.Provider>
   )
 }
 

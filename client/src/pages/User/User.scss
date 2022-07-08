@@ -18,12 +18,13 @@
     overflow: hidden;
     background-color: $sky;
     display: flex;
+    position: relative;
 
     img {
-      height: 163px;
-      width: 86px;
-
-      margin: auto;
+      width: 166px;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
     }
   }
 

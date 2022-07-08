@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import NavBar from '../../components/NavBar/NavBar'
 import TextInput from '../../components/TextInput/TextInput'
 import IconButton from '../../components/IconButton/IconButton'
-import character from '../../assets/images/character.svg'
 import './User.scss'
 import axiosInstance from '../../utils/axiosInstance'
+import CharacterContext from '../../contexts/CharacterContext'
 
 function User() {
   const initialValues = {
@@ -20,6 +20,8 @@ function User() {
   const [email, setEmail] = useState(initialValues.email)
   const [birthdate, setBirthdate] = useState(initialValues.birthdate)
   const [location, setLocation] = useState(initialValues.location)
+
+  const { currentCharacterSprite } = useContext(CharacterContext)
 
   const getUserInfo = async () => {
     const response = await axiosInstance.get<{
@@ -54,7 +56,7 @@ function User() {
     <div className="user-page">
       <header className="user-page__header">
         <div className="user-page__profile-picture">
-          <img src={character} alt="person's character" />
+          {currentCharacterSprite}
         </div>
         <h2
           contentEditable={true}

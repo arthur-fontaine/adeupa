@@ -55,7 +55,13 @@ const useCharacter = ({ playing: playingState }: { playing: boolean } = { playin
     }
   }, [characterSprites, currentCharacterSprite])
 
-  return { currentCharacterSprite, playing, setPlaying, animationSpeed, setAnimationSpeed, nextCharacterSprite, prevCharacterSprite, walkDirection, setWalkDirection }
+  useEffect(() => {
+    if (characterSprites.length > 0 && currentCharacterSprite) {
+      setCurrentCharacterSprite(characterSprites[0])
+    }
+  }, [characterSprites])
+
+  return { currentCharacterSprite, playing, setPlaying, animationSpeed, setAnimationSpeed, nextCharacterSprite, prevCharacterSprite, walkDirection, setWalkDirection, fetchCharacterSprites, characterSprites }
 }
 
 export default useCharacter
