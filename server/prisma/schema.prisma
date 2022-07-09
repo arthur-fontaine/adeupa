@@ -12,24 +12,35 @@ datasource db {
 }
 
 model User {
-  id              Int              @id @default(autoincrement())
+  id              Int                 @id @default(autoincrement())
   name            String
-  email           String           @unique
+  email           String              @unique
   password        String
   birthdate       DateTime?
-  location        Location         @relation(fields: [locationId], references: [id])
+  location        Location            @relation(fields: [locationId], references: [id])
   earnedBadges    Badge[]
   itemsUnlocked   Item[]
   scannedCodes    Code[]
-  character       Character        @relation(fields: [characterId], references: [id])
-  landscape       Landscape        @relation(fields: [landscapeId], references: [id])
+  character       Character           @relation(fields: [characterId], references: [id])
+  landscape       Landscape           @relation(fields: [landscapeId], references: [id])
   completedQuests CompletedQuest[]
   visitedShop     VisitedShop[]
   likedShops      Shop[]
+  searchHistory   UserSearchHistory[]
 
   locationId  Int
   characterId Int @unique
   landscapeId Int @unique
+}
+
+model UserSearchHistory {
+  id         Int      @id @default(autoincrement())
+  user       User     @relation(fields: [userId], references: [id])
+  shop       Shop     @relation(fields: [shopId], references: [id])
+  searchDate DateTime
+
+  shopId Int
+  userId Int
 }
 
 model Character {
@@ -124,16 +135,17 @@ model ShopSchedule {
 }
 
 model Shop {
-  id          Int            @id @default(autoincrement())
+  id          Int                 @id @default(autoincrement())
   name        String
   description String
   tags        Tag[]
   type        ShopType?
-  code        Code           @relation(fields: [codeId], references: [id])
-  location    Location       @relation(fields: [locationId], references: [id])
+  code        Code                @relation(fields: [codeId], references: [id])
+  location    Location            @relation(fields: [locationId], references: [id])
   schedules   ShopSchedule[]
   phoneNumber String
   website     String
+  historyOf   UserSearchHistory[]
 
   likedBy                User[]
   codeId                 String        @unique
