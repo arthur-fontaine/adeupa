@@ -10,6 +10,10 @@ const API_URL = 'http://localhost:3001'
 /** @type {RegExp[]} */
 const ROUTES_TO_AUTOCACHE = [
   new RegExp(`^${API_URL}/users/me/character/?$`),
+  new RegExp(`^${API_URL}/users/me/?$`),
+  new RegExp(`^${API_URL}/users/me/search-history/?$`),
+  new RegExp(`^${API_URL}/quests/?$`),
+  new RegExp(`^${API_URL}/users/me/quests-streak/?$`),
   /\/static\/.*/,
 ]
 
@@ -22,7 +26,7 @@ const APP_ROUTES = [
   '/search',
   '/user',
   '/personalization',
-  new RegExp('/shops/\\d')
+  new RegExp('/shops/\\d'),
 ]
 
 /**
@@ -114,7 +118,7 @@ const customInterceptors = [
       }
 
       return appResponse
-    }
+    },
   },
 ]
 
@@ -185,7 +189,7 @@ const onActivate = async (event) => {
 
 const onInstall = async (event) => {
   event.waitUntil(
-    addRequestsToCache(['/', '/manifest.json']),
+    addRequestsToCache(['/', '/manifest.json', '/favicon.ico', '/icons/logo192.png', '/icons/logo512.png']),
   )
 }
 
