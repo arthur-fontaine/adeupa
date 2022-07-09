@@ -1,0 +1,7 @@
+-- AlterTable
+ALTER TABLE `Quest` ADD COLUMN `description` VARCHAR(191) NOT NULL DEFAULT '',
+    ADD COLUMN `name` VARCHAR(191) NOT NULL DEFAULT '';
+
+-- AlterTable
+ALTER TABLE `QuestMission` ADD COLUMN `description` VARCHAR(191) NOT NULL DEFAULT '',
+    ADD COLUMN `name` VARCHAR(191) NOT NULL DEFAULT '';

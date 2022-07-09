@@ -25,7 +25,7 @@ model User {
   landscape       Landscape        @relation(fields: [landscapeId], references: [id])
   completedQuests CompletedQuest[]
   visitedShop     VisitedShop[]
-  likedShops       Shop[]
+  likedShops      Shop[]
 
   locationId  Int
   characterId Int @unique
@@ -75,7 +75,7 @@ model CompletedQuest {
 }
 
 model Badge {
-  id    String    @id @default(uuid())
+  id    String @id @default(uuid())
   name  String
   value Int
   tags  Tag[]
@@ -86,23 +86,27 @@ model Badge {
 }
 
 model Quest {
-  id       Int            @id @default(autoincrement())
-  missions QuestMission[]
-  badge    Badge[]
+  id          Int            @id @default(autoincrement())
+  name        String         @default("")
+  description String         @default("")
+  missions    QuestMission[]
+  badge       Badge[]
 
   associatedCompletedQuests CompletedQuest[]
 }
 
 model QuestMission {
-  id           Int  @id @default(autoincrement())
-  requiredCode Code @relation(fields: [requiredCodeId], references: [id])
+  id           Int    @id @default(autoincrement())
+  name         String @default("")
+  description  String @default("")
+  requiredCode Code   @relation(fields: [requiredCodeId], references: [id])
 
   associatedQuests Quest[]
   requiredCodeId   String
 }
 
 model Code {
-  id String @id @default(uuid())
+  id          String @id @default(uuid())
   description String @default("")
 
   associatedQuestMissions QuestMission[]
@@ -131,7 +135,7 @@ model Shop {
   phoneNumber String
   website     String
 
-  likedBy User[]
+  likedBy                User[]
   codeId                 String        @unique
   locationId             Int           @unique
   associatedVisitedShops VisitedShop[]
@@ -140,10 +144,10 @@ model Shop {
 }
 
 enum ShopType {
-    Flower
-    Food
-    Toy
-    Other
+  Flower
+  Food
+  Toy
+  Other
 }
 
 model Tag {
