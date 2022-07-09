@@ -69,3 +69,5 @@ cache
 
 public/shops/**/*
 public/codes/**/*
+
+src/utils/generateDB

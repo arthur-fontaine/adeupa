@@ -22,6 +22,23 @@ const quests: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
       return reply.unauthorized()
     }
 
+    const user = await prisma.user.findUnique({
+      where: { id: request.user.id },
+      include: {
+        completedQuests: {
+          include: {
+            quest: {
+              select: { id: true },
+            },
+          },
+        },
+      },
+    })
+
+    if (!user) {
+      return reply.unauthorized()
+    }
+
     const { filter } = request.query as { filter: string }
 
     let questFilter: Prisma.QuestWhereInput
@@ -29,28 +46,30 @@ const quests: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
     if (filter === 'completed') {
       questFilter = {
         id: {
-          in: (await prisma.user.findUnique({
-            where: { id: request.user.id },
-            select: { completedQuests: { select: { id: true } } },
-          }))?.completedQuests.map(({ id }) => id) ?? [],
+          in: user.completedQuests.map(({ id }) => id) ?? [],
         },
       }
     } else if (filter === 'incomplete') {
       questFilter = {
         id: {
-          notIn: (await prisma.user.findUnique({
-            where: { id: request.user.id },
-            select: { completedQuests: { select: { id: true } } },
-          }))?.completedQuests.map(({ id }) => id) ?? [],
+          notIn: user.completedQuests.map(({ id }) => id) ?? [],
         },
       }
     } else {
       questFilter = {}
     }
 
-    const quests = await prisma.quest.findMany({ where: questFilter })
+    const quests = await prisma.quest.findMany({ where: questFilter  })
 
-    return reply.send(quests)
+    return reply.send(quests.map(quest => {
+      const completedQuest = user.completedQuests.find((completedQuest) => completedQuest.quest.id === quest.id)
+
+      return {
+        ...quest,
+        completed: completedQuest !== undefined,
+        completedAt: completedQuest?.completeDate,
+      }
+    }))
   })
 }
 

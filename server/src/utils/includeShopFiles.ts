@@ -3,7 +3,7 @@ import getShopBackground from './getShopBackground'
 import PrismaClient from '@prisma/client'
 
 const includeShopFiles = <T extends { image?: Parameters<typeof getShopImage>; background?: Parameters<typeof getShopBackground>, likes?: [], liked?: [PrismaClient.User] }>(
-  shop: PrismaClient.Shop & { likedBy:  PrismaClient.User[]; },
+  shop: PrismaClient.Shop & { likedBy: PrismaClient.User[]; },
   {
     image,
     background,
