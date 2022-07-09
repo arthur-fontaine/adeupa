@@ -1,0 +1,28 @@
+@import "./../../styles/global";
+
+.card-quest {
+  border-radius: 8px;
+  border: 1px solid #eaecff;
+
+  padding: 12px 12px 12px 16px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  box-sizing: border-box;
+  justify-content: center;
+  gap: 12px;
+
+  h3, p {
+    margin: 0;
+  }
+
+  h3 {
+    @include h3;
+    color: $black;
+  }
+
+  p {
+    @include body;
+    color: $grey;
+  }
+}

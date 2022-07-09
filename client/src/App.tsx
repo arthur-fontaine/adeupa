@@ -19,6 +19,7 @@ import { Shop as IShop } from './hooks/useShops'
 import Search from './pages/Search/Search'
 import Loading from './pages/Loading/Loading'
 import useCharacter from './hooks/useCharacter'
+import Quests from './pages/Quests/Quests'
 
 function App() {
   const firstShopLoadedState = useState(false)
@@ -85,15 +86,16 @@ function AppContent() {
 
                 <Route path='/login' element={<Login />} />
                 <Route path='/signup' element={<Signup />} />
-                <Route path='/scanner' element={<Scanner />} />
                 <Route path='/search' element={<Search />} />
+                <Route path='/scanner' element={<Scanner />} />
+                <Route path="/quests" element={<Quests />} />
                 <Route path='/user' element={<User />} />
                 <Route path='/personalization' element={<Personalization />} />
                 <Route path='/shops/:shopId' element={<Shop />} />
 
-                {/*<Route path="/quests" element={<Quests />} />*/}
                 <Route path='*' element={<div style={{ pointerEvents: 'none' }} />} />
               </Routes>
+
               <BackgroundRoute>{isLoggedIn && <Home />}</BackgroundRoute>
             </BrowserRouter>
           </div>

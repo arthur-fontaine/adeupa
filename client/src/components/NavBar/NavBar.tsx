@@ -1,10 +1,15 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import './NavBar.scss'
 import 'remixicon/fonts/remixicon.css'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 
 const NavBar = () => {
-  const path = window.location.pathname.split('/')[1]
+  const [path, setPath] = useState(window.location.pathname.split('/')[1])
+  const location = useLocation()
+
+  useEffect(() => {
+    setPath(location.pathname.split('/')[1])
+  }, [location.pathname])
 
   return (
     <nav data-page-opened={path === '' ? 'home' : path} className='navigation-bar'>
@@ -39,9 +44,11 @@ const NavBar = () => {
 
       <div className='sep'></div>
 
-      <div className='icon icon--quests'>
-        <button className='ri-calendar-line'></button>
-      </div>
+      <Link to={'/quests'}>
+        <div className='icon icon--quests'>
+          <button className='ri-calendar-line'></button>
+        </div>
+      </Link>
 
       <Link to={'/user'}>
         <div className='icon icon--user'>
