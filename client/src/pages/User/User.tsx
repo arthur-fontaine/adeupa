@@ -6,8 +6,11 @@ import IconButton from '../../components/IconButton/IconButton'
 import './User.scss'
 import axiosInstance from '../../utils/axiosInstance'
 import CharacterContext from '../../contexts/CharacterContext'
+import OnLineContext from '../../contexts/OnLineContext'
 
 function User() {
+  const onLine = useContext(OnLineContext)
+
   const initialValues = {
     name: '',
     email: '',
@@ -47,15 +50,15 @@ function User() {
 
   const updateUserInfo = async (
     type: 'name' | 'email' | 'birthdate' | 'location',
-    value: string
+    value: string,
   ) => {
     await axiosInstance.put(`/users/me?${type}=${value}`)
   }
 
   return (
-    <div className="user-page">
-      <header className="user-page__header">
-        <div className="user-page__profile-picture">
+    <div className='user-page'>
+      <header className='user-page__header'>
+        <div className='user-page__profile-picture'>
           {character && character?.currentCharacterSprite}
         </div>
         <h2
@@ -70,19 +73,20 @@ function User() {
           {name}
         </h2>
 
-        <Link to="/personalization">
-          <div className="user-page__edit-button">
-            <IconButton icon="modify" />
+        {onLine && <Link to='/personalization'>
+          <div className='user-page__edit-button'>
+            <IconButton icon='modify' />
           </div>
-        </Link>
+        </Link>}
       </header>
 
-      <div className="user-page__informations">
+      <div className='user-page__informations'>
         <TextInput
-          name="email"
-          type="text"
+          name='email'
+          type='text'
           value={email}
-          placeholder="Email"
+          placeholder='Email'
+          disabled={!onLine}
           onChange={(e) => {
             setEmail(e.target.value)
           }}
@@ -91,10 +95,11 @@ function User() {
           }}
         />
         <TextInput
-          name="birthdate"
-          type="date"
+          name='birthdate'
+          type='date'
           value={birthdate}
           placeholder="Date d'anniversaire"
+          disabled={!onLine}
           onChange={(e) => {
             setBirthdate(e.target.value)
           }}
@@ -103,10 +108,11 @@ function User() {
           }}
         />
         <TextInput
-          name="location"
-          type="text"
+          name='location'
+          type='text'
           value={location}
-          placeholder="Localisation"
+          placeholder='Localisation'
+          disabled={!onLine}
           onChange={(e) => {
             setLocation(e.target.value)
           }}

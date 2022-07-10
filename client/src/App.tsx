@@ -10,6 +10,7 @@ import LocationContext, { LocationContextType } from './contexts/LocationContext
 import SessionActionsContext from './contexts/SessionActionsContext'
 import ElementsLoadedContext from './contexts/ElementsLoadedContext'
 import CharacterContext from './contexts/CharacterContext'
+import OnLineContext from './contexts/OnLineContext'
 import getLocation from './utils/getLocation'
 import registerSwipeEvent from './events/drag'
 import Scanner from './pages/Scanner/Scanner'
@@ -35,6 +36,11 @@ function AppContent() {
 
   const isLoggedIn = localStorage.getItem('token') !== null
   const [location, setLocation] = useState<LocationContextType>()
+
+  const [onLine, setOnLine] = useState(navigator.onLine)
+
+  window.addEventListener('online', () => setOnLine(true))
+  window.addEventListener('offline', () => setOnLine(false))
 
   const sessionLikesState = useState<number[]>([])
   const sessionUnlikesState = useState<number[]>([])
@@ -70,38 +76,40 @@ function AppContent() {
   }, [])
 
   return (
-    <CharacterContext.Provider value={character}>
-      <LocationContext.Provider value={location}>
-        <SessionActionsContext.Provider value={{
-          sessionLikes: sessionLikesState,
-          sessionUnlikes: sessionUnlikesState,
-          cachedShops: cachedShopsState,
-        }}>
-          <div style={{ height: '100%' }}>
-            { isLoggedIn && <Loading /> }
+    <OnLineContext.Provider value={onLine}>
+      <CharacterContext.Provider value={character}>
+        <LocationContext.Provider value={location}>
+          <SessionActionsContext.Provider value={{
+            sessionLikes: sessionLikesState,
+            sessionUnlikes: sessionUnlikesState,
+            cachedShops: cachedShopsState,
+          }}>
+            <div style={{ height: '100%' }}>
+              {isLoggedIn && <Loading />}
 
-            <BrowserRouter>
-              <Routes>
-                <Route path='/' element={isLoggedIn ? <div style={{ pointerEvents: 'none' }} /> : <Signup />} />
+              <BrowserRouter>
+                <Routes>
+                  <Route path='/' element={isLoggedIn ? <div style={{ pointerEvents: 'none' }} /> : <Signup />} />
 
-                <Route path='/login' element={<Login />} />
-                <Route path='/signup' element={<Signup />} />
-                <Route path='/search' element={<Search />} />
-                <Route path='/scanner' element={<Scanner />} />
-                <Route path="/quests" element={<Quests />} />
-                <Route path='/user' element={<User />} />
-                <Route path='/personalization' element={<Personalization />} />
-                <Route path='/shops/:shopId' element={<Shop />} />
+                  <Route path='/login' element={<Login />} />
+                  <Route path='/signup' element={<Signup />} />
+                  <Route path='/search' element={<Search />} />
+                  <Route path='/scanner' element={<Scanner />} />
+                  <Route path='/quests' element={<Quests />} />
+                  <Route path='/user' element={<User />} />
+                  <Route path='/personalization' element={<Personalization />} />
+                  <Route path='/shops/:shopId' element={<Shop />} />
 
-                <Route path='*' element={<div style={{ pointerEvents: 'none' }} />} />
-              </Routes>
+                  <Route path='*' element={<div style={{ pointerEvents: 'none' }} />} />
+                </Routes>
 
-              <BackgroundRoute>{isLoggedIn && <Home />}</BackgroundRoute>
-            </BrowserRouter>
-          </div>
-        </SessionActionsContext.Provider>
-      </LocationContext.Provider>
-    </CharacterContext.Provider>
+                <BackgroundRoute>{isLoggedIn && <Home />}</BackgroundRoute>
+              </BrowserRouter>
+            </div>
+          </SessionActionsContext.Provider>
+        </LocationContext.Provider>
+      </CharacterContext.Provider>
+    </OnLineContext.Provider>
   )
 }
 

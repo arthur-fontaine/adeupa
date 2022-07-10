@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import calculateDistance from '../../utils/calculateDistance'
 import useShopLikes from '../../hooks/useShopLikes'
 import Tag from '../Tag/Tag'
+import OnLineContext from '../../contexts/OnLineContext'
 
 const CardHome = ({
                     shopImage,
@@ -16,6 +17,7 @@ const CardHome = ({
                     shopLiked = false,
                   }: { shopImage: string; shopTitle: string; shopId: number; shopTags: string[]; shopLikes: number; shopLiked?: boolean; shopLocation: [number, number] }) => {
   const location = useContext(LocationContext)
+  const onLine = useContext(OnLineContext)
   const { liked: mergedShopLiked, likes: mergedShopLikes, likeShop } = useShopLikes(shopId, { shopLikes, shopLiked })
 
   const distance = useMemo(() => {
@@ -27,10 +29,10 @@ const CardHome = ({
     <div className='home-card'>
       <div className='home-card__content'>
         <div className='home-card__img'>
-          <div className='home-card__like' onClick={likeShop}>
+          {onLine && <div className='home-card__like' onClick={likeShop}>
             <i
               className={mergedShopLiked ? 'ri-heart-fill' : 'ri-heart-line'}></i>
-          </div>
+          </div>}
 
           <img src={`data:image/png;base64,${shopImage}`} alt={shopTitle} />
 

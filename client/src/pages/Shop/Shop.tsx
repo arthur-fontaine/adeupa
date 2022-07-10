@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom'
 import moment from 'moment'
 import useShopLikes from '../../hooks/useShopLikes'
 import Tag from '../../components/Tag/Tag'
+import OnLineContext from '../../contexts/OnLineContext'
 
 const days = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'] as const
 
@@ -45,6 +46,8 @@ const parseSchedules = (schedules: { startTime: Date, endTime: Date }[]): { [p: 
 function Shop() {
   let { shopId: shopIdParam } = useParams()
   const shopId = Number(shopIdParam)
+
+  const onLine = useContext(OnLineContext)
 
   const initialValues = {
     name: '',
@@ -132,9 +135,9 @@ function Shop() {
 
       <img src={`data:image/png;base64,${image}`} alt='shop' className='shop-page__cover' />
 
-      <div className='shop-page__like' onClick={likeShop}>
+      {onLine && <div className='shop-page__like' onClick={likeShop}>
         <i className={mergedShopLiked ? 'ri-heart-fill' : 'ri-heart-line'}></i>
-      </div>
+      </div>}
 
       <div className='shop-page__data'>
         <h2 className='shop-page__name'>{name}</h2>

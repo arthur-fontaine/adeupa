@@ -1,6 +1,7 @@
 import { useCallback, useContext, useEffect, useState } from 'react'
 import axiosInstance, { API_URL } from '../utils/axiosInstance'
 import ElementsLoadedContext from '../contexts/ElementsLoadedContext'
+import OnLineContext from '../contexts/OnLineContext'
 
 const STORED_SHOPS_NUMBER = 5
 const MAX_CACHED_SHOPS = 20
@@ -34,6 +35,7 @@ export interface Shop {
 
 const useShops = () => {
   const elementsLoaded = useContext(ElementsLoadedContext)
+  const onLine = useContext(OnLineContext)
 
   const [shops, setShops] = useState<Shop[]>([])
   const [currentShop, setCurrentShop] = useState<Shop>()
@@ -123,7 +125,7 @@ const useShops = () => {
       nextShop().then(() => elementsLoaded.firstShop?.[1](true))
     }
 
-    if (shops.length > 0 && navigator.onLine) {
+    if (shops.length > 0 && onLine) {
       cacheShop(...shops).then()
     }
   }, [shops])

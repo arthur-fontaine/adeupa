@@ -1,11 +1,12 @@
 import React from 'react'
 import './TextInput.scss'
 
-function TextInput({ name, type, placeholder, value, icon, onChange, onBlur, onFocus }: {
+function TextInput({ name, type, placeholder, value, disabled = false, icon, onChange, onBlur, onFocus }: {
   name: string
   type: string
   placeholder: string
   value: string,
+  disabled?: boolean
   icon?: string
   onChange?: React.ChangeEventHandler<HTMLInputElement>
   onBlur?: React.FocusEventHandler<HTMLInputElement>
@@ -21,6 +22,7 @@ function TextInput({ name, type, placeholder, value, icon, onChange, onBlur, onF
         name={name}
         placeholder={placeholder}
         value={value}
+        disabled={disabled}
         onChange={onChange}
         onBlur={(e) => {
           setFocused(false)
