@@ -50,7 +50,7 @@ function Signup() {
     await axiosInstance.post('/users', {
       email,
       password,
-      birthdate,
+      birthdate: new Date(birthdate).toISOString(),
       location,
       name,
     })
@@ -126,12 +126,10 @@ function Signup() {
             />
             <TextInput
               name='birthdate'
-              type='text'
+              type='date'
               placeholder='Anniversaire'
               value={birthdate}
               onChange={(e) => setBirthdate(e.target.value)}
-              onFocus={(e) => e.target.type = 'date'}
-              onBlur={(e) => e.target.value === '' ? e.target.type = 'text' : null}
             />
           </div>
 

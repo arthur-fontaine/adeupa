@@ -50,6 +50,32 @@
     box-sizing: border-box;
     padding: 24px;
     flex-shrink: 0;
+
+    .text-input input[name="birthdate"] {
+      position: relative;
+
+      &[value=""]::-webkit-datetime-edit,
+      &[value=""]::-webkit-inner-spin-button,
+      &[value=""]::-webkit-clear-button {
+        display: none;
+      }
+
+      &[value=""]:before {
+        content: attr(placeholder) !important;
+      }
+
+      &::-webkit-calendar-picker-indicator,
+      &[value=""]:before {
+        color: $purple;
+        opacity: 1;
+      }
+
+      &::-webkit-calendar-picker-indicator {
+        position: absolute;
+        right: 0;
+        padding-left: 100%;
+      }
+    }
   }
 
   &__error {
