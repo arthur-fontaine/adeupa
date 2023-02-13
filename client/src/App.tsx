@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import './App.scss'
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
+import QRCode from "react-qr-code"
 
 import Login from './pages/Login/Login'
 import Signup from './pages/Signup/Signup'
@@ -21,6 +22,7 @@ import Search from './pages/Search/Search'
 import Loading from './pages/Loading/Loading'
 import useCharacter from './hooks/useCharacter'
 import Quests from './pages/Quests/Quests'
+import squareHead from './assets/images/square-head.svg'
 
 function App() {
   const firstShopLoadedState = useState(false)
@@ -76,40 +78,64 @@ function AppContent() {
   }, [])
 
   return (
-    <OnLineContext.Provider value={onLine}>
-      <CharacterContext.Provider value={character}>
-        <LocationContext.Provider value={location}>
-          <SessionActionsContext.Provider value={{
-            sessionLikes: sessionLikesState,
-            sessionUnlikes: sessionUnlikesState,
-            cachedShops: cachedShopsState,
-          }}>
-            <div style={{ height: '100%' }}>
-              {isLoggedIn && <Loading />}
+    window.orientation !== undefined 
+      ? (
+        <OnLineContext.Provider value={onLine}>
+          <CharacterContext.Provider value={character}>
+            <LocationContext.Provider value={location}>
+              <SessionActionsContext.Provider value={{
+                sessionLikes: sessionLikesState,
+                sessionUnlikes: sessionUnlikesState,
+                cachedShops: cachedShopsState,
+              }}>
+                <div style={{ height: '100%' }}>
+                  {isLoggedIn && <Loading />}
 
-              <BrowserRouter>
-                <Routes>
-                  <Route path='/' element={isLoggedIn ? <div style={{ pointerEvents: 'none' }} /> : <Signup />} />
+                  <BrowserRouter>
+                    <Routes>
+                      <Route path='/' element={isLoggedIn ? <div style={{ pointerEvents: 'none' }} /> : <Signup />} />
 
-                  <Route path='/login' element={<Login />} />
-                  <Route path='/signup' element={<Signup />} />
-                  <Route path='/search' element={<Search />} />
-                  <Route path='/scanner' element={<Scanner />} />
-                  <Route path='/quests' element={<Quests />} />
-                  <Route path='/user' element={<User />} />
-                  <Route path='/personalization' element={<Personalization />} />
-                  <Route path='/shops/:shopId' element={<Shop />} />
+                      <Route path='/login' element={<Login />} />
+                      <Route path='/signup' element={<Signup />} />
+                      <Route path='/search' element={<Search />} />
+                      <Route path='/scanner' element={<Scanner />} />
+                      <Route path='/quests' element={<Quests />} />
+                      <Route path='/user' element={<User />} />
+                      <Route path='/personalization' element={<Personalization />} />
+                      <Route path='/shops/:shopId' element={<Shop />} />
 
-                  <Route path='*' element={<div style={{ pointerEvents: 'none' }} />} />
-                </Routes>
+                      <Route path='*' element={<div style={{ pointerEvents: 'none' }} />} />
+                    </Routes>
 
-                <BackgroundRoute>{isLoggedIn && <Home />}</BackgroundRoute>
-              </BrowserRouter>
+                    <BackgroundRoute>{isLoggedIn && <Home />}</BackgroundRoute>
+                  </BrowserRouter>
+                </div>
+              </SessionActionsContext.Provider>
+            </LocationContext.Provider>
+          </CharacterContext.Provider>
+        </OnLineContext.Provider>
+      )
+      : (
+        <div className='only-mobile'>
+          <div className='only-mobile__background'>
+              <img src={squareHead} alt='square head' />
+          </div>
+          <div>
+            <p>Adeupa est optimisé pour les appareils mobiles.</p>
+            <p>Veuillez utiliser votre téléphone pour essayer l'application.</p>
+            <div className="only-mobile__qrcode">
+              <QRCode
+                value={window.location.href}
+                bgColor='#ffffff00'
+                fgColor='var(--qr-code-color)'
+                size={256}
+                style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+                viewBox={`0 0 256 256`}
+              />
             </div>
-          </SessionActionsContext.Provider>
-        </LocationContext.Provider>
-      </CharacterContext.Provider>
-    </OnLineContext.Provider>
+          </div>
+        </div>
+      )
   )
 }
 

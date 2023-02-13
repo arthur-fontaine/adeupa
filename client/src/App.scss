@@ -1,3 +1,83 @@
+@import "./styles/global";
+
 .App {
     height: 100%;
+}
+
+.only-mobile {
+    height: 100%;
+    width: 100%;
+    
+    display: flex;
+    flex-direction: column;
+    
+    background-color: $clay;
+
+    --bg-size: 33.33%;
+
+    @media (min-width: 768px) {
+        flex-direction: row;
+    }
+
+    @media (min-width: 1024px) {
+        --bg-size: 25%;
+    }
+
+    &__background {
+        height: 100%;
+        width: var(--bg-size);
+        background-color: $pink;
+        clip-path: ellipse(100% 70% at 0 50%);
+
+        @media (max-width: 768px) {
+            width: 100%;
+            height: var(--bg-size);
+
+            clip-path: ellipse(100% 100% at 50% 0);
+        }
+
+        img {
+            height: 100%;
+            width: 100%;
+            object-fit: contain;
+        }
+
+        & + div {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+
+            padding: 10%;
+
+            $margin: auto;
+
+            margin: 0 $margin;
+
+            @media (max-width: 768px) {
+                margin: $margin;
+            }
+        }
+    }
+
+    p {
+        margin: 0;
+        margin-bottom: 1rem;
+        font-size: 1.2rem;
+        line-height: 1.1em;
+    }
+
+    &__qrcode {
+        $size: 8rem;
+        width: $size;
+        height: $size;
+
+        margin-top: 2.5rem;
+
+        padding: calc($size / 5);
+
+        background: $white;
+        border-radius: calc($size / 5);
+
+        --qr-code-color: #{$purple};
+    }
 }
